@@ -1,0 +1,2 @@
+#define CUBEPROGRAMMERAPI_API __declspec(dllexport)
+#define CUBEPROGRAMMERAPI_API __declspec(dllimport)
