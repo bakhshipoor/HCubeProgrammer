@@ -8,7 +8,7 @@ DWORD dwTlsIndex; // address of shared memory
 const char* loaderPath = "";
 
 // https://github.com/K-Society/KSociety.SharpCubeProgrammer/blob/master/src/01/Programmer/dllmain.cpp#L21
-static BOOL InitialSTLink(HMODULE hModule)
+static BOOL APIENTRY InitialSTLink(HMODULE hModule)
 {
     WCHAR dllName[MAX_PATH + 1];
     DWORD size = 0;

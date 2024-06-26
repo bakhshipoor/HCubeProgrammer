@@ -74,7 +74,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>CubeProgrammerAPI</TargetName>
+    <TargetName>CubeProgrammerAPI$(Platform)</TargetName>
     <OutDir>$(SolutionDir)STM32CubeProgrammerAPI\lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

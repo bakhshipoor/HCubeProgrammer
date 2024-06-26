@@ -98,7 +98,7 @@
 
 #ifndef CUBEPROGRAMMER_API_H
 #define CUBEPROGRAMMER_API_H
-using namespace std;
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -111,7 +111,7 @@ extern "C" {
 #else
 # define CP_EXPORTS
 #endif
-    
+
 
 /* -------------------------------------------------------------------------------------------- */
 /*                                      Errors Enumerations                                     */
@@ -1185,9 +1185,9 @@ const char* getHsmType(int hsmSlotId);
 int getHsmLicense(int hsmSlotId, const wchar_t* outLicensePath);
 
 /*! @} */
-}
-#ifdef __cplusplus
 
+#ifdef __cplusplus
+}
 #endif
 
 
