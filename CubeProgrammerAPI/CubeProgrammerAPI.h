@@ -11,15 +11,15 @@ extern DWORD dwTlsIndex;
 extern const char* loaderPath;
 
 #ifdef __cplusplus
-extern "C" 
+extern "C"
 {
 #endif
 
-	#ifdef CUBEPROGRAMMERAPI_EXPORTS
-	#define CUBEPROGRAMMERAPI_API __declspec(dllexport)
-	#else
-	#define CUBEPROGRAMMERAPI_API __declspec(dllimport)
-	#endif
+#ifdef CUBEPROGRAMMERAPI_EXPORTS
+#define CUBEPROGRAMMERAPI_API __declspec(dllexport)
+#else
+#define CUBEPROGRAMMERAPI_API 
+#endif
 
 	CUBEPROGRAMMERAPI_API int GetLoadersPath(_Out_ char**);
 

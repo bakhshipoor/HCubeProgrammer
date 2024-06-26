@@ -143,7 +143,7 @@ CUBEPROGRAMMERAPI_API int APIENTRY ReadUnprotect(void)
 
 CUBEPROGRAMMERAPI_API int APIENTRY TzenRegression(void)
 {
-    return 0;// tzenRegression();
+    return 0;// (int)tzenRegression();
 }
 
 CUBEPROGRAMMERAPI_API int APIENTRY GetTargetInterfaceType(void)
@@ -215,7 +215,7 @@ CUBEPROGRAMMERAPI_API peripheral_C* APIENTRY InitOptionBytesInterface(void)
 
 CUBEPROGRAMMERAPI_API peripheral_C* APIENTRY FastRomInitOptionBytesInterface(uint16_t deviceId)
 {
-    peripheral_C* xxx = {0};
+    peripheral_C* xxx = { 0 };
     return xxx;// fastRomInitOptionBytesInterface(deviceId);
 }
 
