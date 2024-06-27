@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Shapes;
-using static HCubeProgrammerLibrary.CubeProgeammerAPI.CubeProgrammerAPIEnums;
+using static HCubeProgrammerLibrary.CubeProgeammerAPI.CubeProgrammerAPIFunctions;
 using static HCubeProgrammerLibrary.CubeProgeammerAPI.CubeProgrammerAPIStructs;
-using static HCubeProgrammerLibrary.HCubeProgrammerLib;
 
 namespace HCubeProgrammerLibrary;
 
@@ -16,7 +9,24 @@ public partial class HCubeProgrammerLib
 {
     public HCubeProgrammerLib()
     {
-        
+        if (Environment.Is64BitOperatingSystem)
+        {
+            if (File.Exists(Win64BitDLLFileName))
+            {
+                IsValidDLLFile = true;
+                ValidDLLFileName = Win64BitDLLFileName;
+            }
+        }
+        else
+        {
+            if (File.Exists(Win32BitDLLFileName))
+            {
+                IsValidDLLFile = true;
+                ValidDLLFileName = Win32BitDLLFileName;
+            }
+        }
+
+
         IntPtr stLinkList = new();
         int x1 = GetStLinkList(out stLinkList,0);
         if (stLinkList != IntPtr.Zero)
@@ -28,8 +38,8 @@ public partial class HCubeProgrammerLib
                 Marshal.DestroyStructure<DebugConnectParameters>(stLinkList + (i * size));
             }
         }
-
-        int iss = GetLoadersPath(out IntPtr xc);
+        IntPtr xc = IntPtr.Zero;
+        int iss = GetLoadersPath(out xc);
         if (xc != IntPtr.Zero)
         {
             string? currentItem2 = Marshal.PtrToStringAnsi(xc);
@@ -38,10 +48,5 @@ public partial class HCubeProgrammerLib
         
     }
 
-    [LibraryImport("D:\\6 Develope\\HCubeProgrammer\\STM32CubeProgrammerAPI\\lib\\CubeProgrammerAPIx64.dll")]
-    public static partial int GetStLinkList(out IntPtr stLinkList, int shared);
-
-    [LibraryImport("D:\\6 Develope\\HCubeProgrammer\\STM32CubeProgrammerAPI\\lib\\CubeProgrammerAPIx64.dll")]
-    public static partial int GetLoadersPath(out IntPtr LoaderPath);
 
 }
