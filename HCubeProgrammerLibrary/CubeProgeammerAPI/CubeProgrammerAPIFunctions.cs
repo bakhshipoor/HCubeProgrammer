@@ -8,5 +8,8 @@ namespace HCubeProgrammerLibrary.CubeProgeammerAPI;
 
 public static partial class CubeProgrammerAPIFunctions
 {
+    private static bool IsX64 = Environment.Is64BitOperatingSystem;
+
+
 
 }

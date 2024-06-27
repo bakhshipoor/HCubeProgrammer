@@ -143,7 +143,7 @@ CUBEPROGRAMMERAPI_API int APIENTRY ReadUnprotect(void)
 
 CUBEPROGRAMMERAPI_API int APIENTRY TzenRegression(void)
 {
-    return 0;// (int)tzenRegression();
+    return 0;// tzenRegression();
 }
 
 CUBEPROGRAMMERAPI_API int APIENTRY GetTargetInterfaceType(void)
