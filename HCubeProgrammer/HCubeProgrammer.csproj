@@ -16,6 +16,7 @@
       <CopyLocalSatelliteAssemblies>True</CopyLocalSatelliteAssemblies>
       <ReferenceOutputAssembly>True</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="..\HexManager\HexManager.csproj" />
   </ItemGroup>
 
 </Project>

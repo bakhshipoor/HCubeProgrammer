@@ -24,8 +24,8 @@ extern "C"
 	CUBEPROGRAMMERAPI_API int GetLoadersPath(_Out_ char**);
 
 	// STLINK functions
-	CUBEPROGRAMMERAPI_API int APIENTRY GetStLinkList(debugConnectParameters**, int);
-	CUBEPROGRAMMERAPI_API int APIENTRY GetStLinkEnumerationList(debugConnectParameters**, int);
+	CUBEPROGRAMMERAPI_API int APIENTRY GetStLinkList(_Out_ debugConnectParameters**, _In_ int);
+	CUBEPROGRAMMERAPI_API int APIENTRY GetStLinkEnumerationList(_Out_ debugConnectParameters**, _In_ int);
 	CUBEPROGRAMMERAPI_API int APIENTRY ConnectStLink(debugConnectParameters);
 	CUBEPROGRAMMERAPI_API int APIENTRY Reset(debugResetMode);
 

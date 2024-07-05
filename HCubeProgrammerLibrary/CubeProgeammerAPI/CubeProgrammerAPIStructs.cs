@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 using static HCubeProgrammerLibrary.CubeProgeammerAPI.CubeProgrammerAPIEnums;
-using static HCubeProgrammerLibrary.CubeProgeammerAPI.CubeProgrammerAPIFunctions;
+using static HCubeProgrammerLibrary.CubeProgeammerAPI.CubeProgrammerAPIFunctionsEx;
 
 namespace HCubeProgrammerLibrary.CubeProgeammerAPI;
 
@@ -254,21 +249,21 @@ public static class CubeProgrammerAPIStructs
     public struct Frequencies
     {
         /// <summary>
-        /// JTAG frequency.
+        /// Get JTAG supported frequencies.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U4, SizeConst = 12)]
         public uint[] jtagFreq;
         /// <summary>
-        /// Get JTAG supported frequencies.
+        /// JTAG frequency.
         /// </summary>
         public uint jtagFreqNumber;
         /// <summary>
-        /// SWD frequency.
+        /// Get SWD supported frequencies.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U4, SizeConst = 12)]
         public uint[] swdFreq;
         /// <summary>
-        /// Get SWD supported frequencies.
+        /// SWD frequency.
         /// </summary>
         public uint swdFreqNumber;
     }
@@ -340,6 +335,9 @@ public static class CubeProgrammerAPIStructs
         /// </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 100)]
         public string board;
+        /// <summary>
+        /// 
+        /// </summary>
         public int DBG_Sleep;
         /// <summary>
         /// Select speed flashing of Cortex M33 series.

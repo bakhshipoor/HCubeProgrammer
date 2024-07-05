@@ -1,0 +1,275 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HexManager">
+    
+    <Style x:Key="GridSplitterPreviewStyle">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Fill="Red"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="HexGridSplitter"
+           TargetType="{x:Type GridSplitter}">
+        <Setter Property="Background"
+                Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+        <Setter Property="PreviewStyle"
+                Value="{StaticResource GridSplitterPreviewStyle}"/>
+        <Setter Property="Width" 
+                Value="2"/>
+        <Setter Property="HorizontalAlignment" 
+                Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GridSplitter}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="HexHeaderTextBlock"
+       TargetType="{x:Type TextBlock}">
+        <Setter Property="Background"
+            Value="Transparent"/>
+        <Setter Property="HorizontalAlignment" 
+            Value="Center"/>
+        <Setter Property="VerticalAlignment" 
+            Value="Center"/>
+        
+    </Style>
+
+    <Style x:Key="{x:Type local:HexViewer}"
+           TargetType="{x:Type local:HexViewer}">
+        <Setter Property="Background"
+                Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        <Setter Property="BorderBrush"
+                Value="{StaticResource ListBorder}"/>
+        <Setter Property="BorderThickness"
+                Value="1"/>
+        <Setter Property="Padding"
+                Value="1"/>
+        <Setter Property="Foreground"
+                Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
+                Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
+                Value="Auto"/>
+        <Setter Property="ScrollViewer.PanningMode"
+                Value="Both"/>
+        <Setter Property="Stylus.IsFlicksEnabled"
+                Value="False"/>
+        <Setter Property="VerticalContentAlignment"
+                Value="Center"/>
+        <Setter Property="Grid.IsSharedSizeScope" 
+                Value="True"/>
+        <Setter Property="AlternationCount"
+                Value="2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:HexViewer}">
+                    <Border Name="Bd"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="true">
+                            <ScrollViewer Name="_tv_scrollviewer_"
+                                      Background="{TemplateBinding Background}"
+                                      Focusable="false"
+                                      CanContentScroll="false"
+                                      HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                      Padding="{TemplateBinding Padding}"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <!-- 0 -->
+                                        <ColumnDefinition MinWidth="150" Width="Auto" SharedSizeGroup="AddressColumn"/>
+                                        <!-- 1 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn0"/>
+                                        <!-- 2 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumn0"/>
+                                        <!-- 3 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn1"/>
+                                        <!-- 4 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumn1"/>
+                                        <!-- 5 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn2"/>
+                                        <!-- 6 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumn2"/>
+                                        <!-- 7 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn3"/>
+                                        <!-- 8 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumn3"/>
+                                        <!-- 9 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn4"/>
+                                        <!-- 10 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumn4"/>
+                                        <!-- 11 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn5"/>
+                                        <!-- 12 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumn5"/>
+                                        <!-- 13 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn6"/>
+                                        <!-- 14 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumn6"/>
+                                        <!-- 15 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn7"/>
+                                        <!-- 16 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumn7"/>
+                                        <!-- 17 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn8"/>
+                                        <!-- 18 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumn8"/>
+                                        <!-- 19 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn9"/>
+                                        <!-- 20 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumn9"/>
+                                        <!-- 21 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn10"/>
+                                        <!-- 22 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumnA"/>
+                                        <!-- 23 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn11"/>
+                                        <!-- 24 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumnB"/>
+                                        <!-- 25 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn12"/>
+                                        <!-- 26 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumnC"/>
+                                        <!-- 27 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn13"/>
+                                        <!-- 28 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumnD"/>
+                                        <!-- 29 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn14"/>
+                                        <!-- 30 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumnE"/>
+                                        <!-- 31 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn15"/>
+                                        <!-- 32 -->
+                                        <ColumnDefinition MinWidth="30" Width="Auto" SharedSizeGroup="DataColumnF"/>
+                                        <!-- 33 -->
+                                        <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn16"/>
+                                        <!-- 34 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn0"/>
+                                        <!-- 35 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn1"/>
+                                        <!-- 36 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn2"/>
+                                        <!-- 37 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn3"/>
+                                        <!-- 38 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn4"/>
+                                        <!-- 39 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn5"/>
+                                        <!-- 40 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn6"/>
+                                        <!-- 41 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn7"/>
+                                        <!-- 42 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn8"/>
+                                        <!-- 43 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn9"/>
+                                        <!-- 44 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnA"/>
+                                        <!-- 45 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnB"/>
+                                        <!-- 46 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnC"/>
+                                        <!-- 47 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnD"/>
+                                        <!-- 48 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnE"/>
+                                        <!-- 49 -->
+                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnF"/>
+                                        <!-- 50 -->
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <!-- 0 -->
+                                    <TextBlock Grid.Column="0" Text="Address" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="1" Style="{StaticResource HexGridSplitter}" />
+                                    <!-- 1 -->
+                                    <TextBlock Grid.Column="2" Text="0" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="3" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 2 -->
+                                    <TextBlock Grid.Column="4" Text="1" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="5" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 3 -->
+                                    <TextBlock Grid.Column="6" Text="2" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="7" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 4 -->
+                                    <TextBlock Grid.Column="8" Text="3" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="9" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 5 -->
+                                    <TextBlock Grid.Column="10" Text="4" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="11" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 6 -->
+                                    <TextBlock Grid.Column="12" Text="5" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="13" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 7 -->
+                                    <TextBlock Grid.Column="14" Text="6" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="15" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 8 -->
+                                    <TextBlock Grid.Column="16" Text="7" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="17" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 9 -->
+                                    <TextBlock Grid.Column="18" Text="8" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="19" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 10 -->
+                                    <TextBlock Grid.Column="20" Text="9" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="21" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 11 -->
+                                    <TextBlock Grid.Column="22" Text="A" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="23" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 12 -->
+                                    <TextBlock Grid.Column="24" Text="B" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="25" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 13 -->
+                                    <TextBlock Grid.Column="26" Text="C" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="27" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 14 -->
+                                    <TextBlock Grid.Column="28" Text="D" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="29" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 15 -->
+                                    <TextBlock Grid.Column="30" Text="E" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="31" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 16 -->
+                                    <TextBlock Grid.Column="32" Text="F" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="33" Style="{StaticResource HexGridSplitter}"/>
+                                    <!-- 17 -->
+                                    <TextBlock Grid.Column="34" Grid.ColumnSpan="17" Text="ASCII" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <!-- 18 -->
+                                    <Border Grid.ColumnSpan="51" BorderBrush="Gray" BorderThickness="0 0 0 2"/>
+                                </Grid>
+                                <ItemsPresenter Grid.Row="1" />
+                            </Grid>
+                        </ScrollViewer>
+                        
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled"
+                                 Value="false">
+                            <Setter TargetName="Bd"
+                                    Property="Background"
+                                    Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

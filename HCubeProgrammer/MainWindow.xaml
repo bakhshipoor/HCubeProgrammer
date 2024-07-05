@@ -4,9 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HCubeProgrammer"
+        xmlns:HexMgr="clr-namespace:HexManager;assembly=HexManager"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    
+    
     <Grid>
+        <HexMgr:HexViewer BorderBrush="Beige">
+
+            <HexMgr:HexViewerItem Content="B47146490840004900095E49008E44F5"/>
+            <HexMgr:HexViewerItem Content="0B8B4201D3CB03C01A5241830B8B426A"/>
+            <HexMgr:HexViewerItem Content="01C01A524103098B4201D30B01C01AA2"/>
+            <HexMgr:HexViewerItem Content="29F7D076E7704703460B437FD400"/>
+
+        </HexMgr:HexViewer>
 
     </Grid>
 </Window>

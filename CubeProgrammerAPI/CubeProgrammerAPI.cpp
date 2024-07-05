@@ -12,12 +12,12 @@ CUBEPROGRAMMERAPI_API int APIENTRY GetLoadersPath(_Out_ char** bLoaderPath)
 }
 
 // STLINK functions
-CUBEPROGRAMMERAPI_API int APIENTRY GetStLinkList(debugConnectParameters** stLinkList, int shared)
+CUBEPROGRAMMERAPI_API int APIENTRY GetStLinkList(_Out_ debugConnectParameters** stLinkList, _In_ int shared)
 {
     return getStLinkList(stLinkList, shared);
 }
 
-CUBEPROGRAMMERAPI_API int APIENTRY GetStLinkEnumerationList(debugConnectParameters** stlink_list, int shared)
+CUBEPROGRAMMERAPI_API int APIENTRY GetStLinkEnumerationList(_Out_ debugConnectParameters** stlink_list, _In_ int shared)
 {
     return getStLinkEnumerationList(stlink_list, shared);
 }

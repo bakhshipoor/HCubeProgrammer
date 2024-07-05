@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HexManager">
+
+    <ResourceDictionary.MergedDictionaries>
+        
+		<ResourceDictionary Source="/HexManager;component/Themes/HexViewer.xaml"/>
+        <ResourceDictionary Source="/HexManager;component/Themes/HexViewerItem.xaml"/>
+        
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

@@ -1,0 +1,189 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HexManager">
+
+    <local:CharToHexConverter x:Key="CharToHexConverter" />
+    
+    <DataTemplate x:Key="hip">
+        <Grid Height="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="AddressColumn"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn0"/>
+                <ColumnDefinition SharedSizeGroup="DataColumn0"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn1"/>
+                <ColumnDefinition SharedSizeGroup="DataColumn1"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn2"/>
+                <ColumnDefinition SharedSizeGroup="DataColumn2"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn3"/>
+                <ColumnDefinition SharedSizeGroup="DataColumn3"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn4"/>
+                <ColumnDefinition SharedSizeGroup="DataColumn4"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn5"/>
+                <ColumnDefinition SharedSizeGroup="DataColumn5"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn6"/>
+                <ColumnDefinition SharedSizeGroup="DataColumn6"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn7"/>
+                <ColumnDefinition SharedSizeGroup="DataColumn7"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn8"/>
+                <ColumnDefinition SharedSizeGroup="DataColumn8"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn9"/>
+                <ColumnDefinition SharedSizeGroup="DataColumn9"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn10"/>
+                <ColumnDefinition SharedSizeGroup="DataColumnA"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn11"/>
+                <ColumnDefinition SharedSizeGroup="DataColumnB"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn12"/>
+                <ColumnDefinition SharedSizeGroup="DataColumnC"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn13"/>
+                <ColumnDefinition SharedSizeGroup="DataColumnD"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn14"/>
+                <ColumnDefinition SharedSizeGroup="DataColumnE"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn15"/>
+                <ColumnDefinition SharedSizeGroup="DataColumnF"/>
+                <ColumnDefinition SharedSizeGroup="SplitterColumn16"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumn0"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumn1"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumn2"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumn3"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumn4"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumn5"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumn6"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumn7"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumn8"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumn9"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumnA"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumnB"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumnC"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumnD"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumnE"/>
+                <ColumnDefinition SharedSizeGroup="ASCIIColumnF"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="0x0800F000" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="1" Stroke="Gray" Width="2" StrokeThickness="2" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="2" Text="{Binding DataBytes[0],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="3" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="4" Text="{Binding DataBytes[1],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="5" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="6" Text="{Binding DataBytes[2],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="7" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="8" Text="{Binding DataBytes[3],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="9" Stroke="Gray" Width="1" StrokeThickness="1" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="10" Text="{Binding DataBytes[4],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="11" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="12" Text="{Binding DataBytes[5],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="13" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="14" Text="{Binding DataBytes[6],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="15" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="16" Text="{Binding DataBytes[7],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="17" Stroke="Gray" Width="1" StrokeThickness="1" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="18" Text="{Binding DataBytes[8],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="19" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="20" Text="{Binding DataBytes[9],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="21" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="22" Text="{Binding DataBytes[10],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="23" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="24" Text="{Binding DataBytes[11],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="25" Stroke="Gray" Width="1" StrokeThickness="1" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="26" Text="{Binding DataBytes[12],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="27" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="28" Text="{Binding DataBytes[13],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="29" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="30" Text="{Binding DataBytes[14],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="31" Stroke="Gray" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="32" Text="{Binding DataBytes[15],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}, Converter={StaticResource CharToHexConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Rectangle Grid.Column="33" Stroke="Gray" Width="2" StrokeThickness="2" SnapsToDevicePixels="True"/>
+
+            <TextBlock Grid.Column="34" Text="{Binding DataBytes[0],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="35" Text="{Binding DataBytes[1],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="36" Text="{Binding DataBytes[2],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="37" Text="{Binding DataBytes[3],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="38" Text="{Binding DataBytes[4],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="39" Text="{Binding DataBytes[5],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="40" Text="{Binding DataBytes[6],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="41" Text="{Binding DataBytes[7],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="42" Text="{Binding DataBytes[8],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="43" Text="{Binding DataBytes[9],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="44" Text="{Binding DataBytes[10],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="45" Text="{Binding DataBytes[11],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="46" Text="{Binding DataBytes[12],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="47" Text="{Binding DataBytes[13],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="48" Text="{Binding DataBytes[14],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Column="49" Text="{Binding DataBytes[15],RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="{x:Type local:HexViewerItem}"
+           TargetType="{x:Type local:HexViewerItem}">
+        <Setter Property="HorizontalContentAlignment"
+                Value="{Binding Path=HorizontalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="VerticalContentAlignment"
+                Value="{Binding Path=VerticalContentAlignment,RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+        <Setter Property="Padding"
+                Value="3,0,3,0"/>
+        <Setter Property="Background"
+                Value="Transparent"/>
+        <Setter Property="Height"
+                Value="30"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:HexViewerItem}" >
+                    <Border Name="Bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            
+                            SnapsToDevicePixels="true">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          ContentTemplate="{StaticResource hip}"/>
+                        
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        
+                        <Trigger Property="IsEnabled"
+                                 Value="false">
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=(SystemParameters.HighContrast)}" Value="true"/>
+                            </MultiDataTrigger.Conditions>
+                            
+                        </MultiDataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                <Setter Property="Background" Value="#A0ffeaa7"></Setter>
+            </Trigger>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                <Setter Property="Background" Value="#A0fdcb6e"></Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>
