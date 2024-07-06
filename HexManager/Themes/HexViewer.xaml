@@ -161,37 +161,37 @@
                                         <!-- 33 -->
                                         <ColumnDefinition Width="4" SharedSizeGroup="SplitterColumn16"/>
                                         <!-- 34 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn0"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumn0"/>
                                         <!-- 35 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn1"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumn1"/>
                                         <!-- 36 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn2"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumn2"/>
                                         <!-- 37 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn3"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumn3"/>
                                         <!-- 38 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn4"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumn4"/>
                                         <!-- 39 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn5"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumn5"/>
                                         <!-- 40 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn6"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumn6"/>
                                         <!-- 41 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn7"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumn7"/>
                                         <!-- 42 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn8"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumn8"/>
                                         <!-- 43 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumn9"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumn9"/>
                                         <!-- 44 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnA"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumnA"/>
                                         <!-- 45 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnB"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumnB"/>
                                         <!-- 46 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnC"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumnC"/>
                                         <!-- 47 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnD"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumnD"/>
                                         <!-- 48 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnE"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumnE"/>
                                         <!-- 49 -->
-                                        <ColumnDefinition MinWidth="15" Width="Auto" SharedSizeGroup="ASCIIColumnF"/>
+                                        <ColumnDefinition MinWidth="20" Width="Auto" SharedSizeGroup="ASCIIColumnF"/>
                                         <!-- 50 -->
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>

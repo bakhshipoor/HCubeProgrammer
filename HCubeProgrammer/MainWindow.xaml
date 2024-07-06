@@ -7,9 +7,12 @@
         xmlns:HexMgr="clr-namespace:HexManager;assembly=HexManager"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    
-    
+
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <HexMgr:HexViewer BorderBrush="Beige">
 
             <HexMgr:HexViewerItem Content="B47146490840004900095E49008E44F5"/>
@@ -19,5 +22,12 @@
 
         </HexMgr:HexViewer>
 
+        <HexMgr:HexByte Grid.Row="1" 
+                        DisplayMode="BinaryString" 
+                        Data="255" 
+                        CanEdit="True"
+                        Width="30" 
+                        Height="30"/>
+        
     </Grid>
 </Window>

@@ -28,20 +28,10 @@ public class HexViewerItem : ContentControl
         if (newContent != null && newContent is string)
         {
             string content = (string)newContent;
-            byte[] dataBytes = Enumerable.Range(0, content.Length)
+            DataBytes = Enumerable.Range(0, content.Length)
                      .Where(x => x % 2 == 0)
                      .Select(x => Convert.ToByte(content.Substring(x, 2), 16))
                      .ToArray();
-            if (dataBytes != null)
-            {
-                DataBytes = new char[dataBytes.Length];
-                for (int i = 0; i < dataBytes.Length; i++)
-                {
-                    DataBytes[i] = (char)dataBytes[i];
-                }
-            }
-
-            string hexValue = string.Format("{0:X2}", (byte)DataBytes[0]);
         }
 
     }
@@ -50,14 +40,14 @@ public class HexViewerItem : ContentControl
 
 
 
-    public char[] DataBytes
+    public byte[] DataBytes
     {
-        get { return (char[])GetValue(DataBytesProperty); }
+        get { return (byte[])GetValue(DataBytesProperty); }
         set { SetValue(DataBytesProperty, value); }
     }
     // Using a DependencyProperty as the backing store for DataBytes.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty DataBytesProperty =
-        DependencyProperty.Register("DataBytes", typeof(char[]), typeof(HexViewerItem), new PropertyMetadata(null));
+        DependencyProperty.Register("DataBytes", typeof(byte[]), typeof(HexViewerItem), new PropertyMetadata(null));
 
 
 
