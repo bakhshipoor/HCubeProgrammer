@@ -195,60 +195,46 @@
                                         <!-- 50 -->
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <!-- 0 -->
-                                    <TextBlock Grid.Column="0" Text="Address" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    
+                                    <!--#region Spliters-->
                                     <GridSplitter Grid.Column="1" Style="{StaticResource HexGridSplitter}" />
-                                    <!-- 1 -->
-                                    <TextBlock Grid.Column="2" Text="0" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="3" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 2 -->
-                                    <TextBlock Grid.Column="4" Text="1" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="5" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 3 -->
-                                    <TextBlock Grid.Column="6" Text="2" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="7" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 4 -->
-                                    <TextBlock Grid.Column="8" Text="3" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="9" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 5 -->
-                                    <TextBlock Grid.Column="10" Text="4" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="11" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 6 -->
-                                    <TextBlock Grid.Column="12" Text="5" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="13" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 7 -->
-                                    <TextBlock Grid.Column="14" Text="6" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="15" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 8 -->
-                                    <TextBlock Grid.Column="16" Text="7" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="17" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 9 -->
-                                    <TextBlock Grid.Column="18" Text="8" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="19" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 10 -->
-                                    <TextBlock Grid.Column="20" Text="9" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="21" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 11 -->
-                                    <TextBlock Grid.Column="22" Text="A" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="23" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 12 -->
-                                    <TextBlock Grid.Column="24" Text="B" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="25" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 13 -->
-                                    <TextBlock Grid.Column="26" Text="C" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="27" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 14 -->
-                                    <TextBlock Grid.Column="28" Text="D" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="29" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 15 -->
-                                    <TextBlock Grid.Column="30" Text="E" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <GridSplitter Grid.Column="31" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 16 -->
-                                    <TextBlock Grid.Column="32" Text="F" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <GridSplitter Grid.Column="31" Style="{StaticResource HexGridSplitter}"/>
                                     <GridSplitter Grid.Column="33" Style="{StaticResource HexGridSplitter}"/>
-                                    <!-- 17 -->
+                                    <!--#endregion Spliters-->
+                                    
+                                    <TextBlock Grid.Column="0" Text="Address" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="2" Text="0" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="4" Text="1" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="6" Text="2" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="8" Text="3" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="10" Text="4" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="12" Text="5" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="14" Text="6" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="16" Text="7" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="18" Text="8" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="20" Text="9" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="22" Text="A" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="24" Text="B" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="26" Text="C" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="28" Text="D" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="30" Text="E" Style="{StaticResource HexHeaderTextBlock}"/>
+                                    <TextBlock Grid.Column="32" Text="F" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <TextBlock Grid.Column="34" Grid.ColumnSpan="17" Text="ASCII" Style="{StaticResource HexHeaderTextBlock}"/>
-                                    <!-- 18 -->
                                     <Border Grid.ColumnSpan="51" BorderBrush="Gray" BorderThickness="0 0 0 2"/>
                                 </Grid>
                                 <ItemsPresenter Grid.Row="1" />

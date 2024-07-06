@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HCubeProgrammerLibrary.FirmwareFileData;
+using HexManager.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +10,20 @@ using System.Windows.Controls;
 
 namespace HexManager;
 
-[StyleTypedProperty(Property = "ItemContainerStyle", StyleTargetType = typeof(HexViewerItem))]
-public class HexViewer : ItemsControl
+
+public class HexViewer : Control
 {
     static HexViewer()
     {
         DefaultStyleKeyProperty.OverrideMetadata(typeof(HexViewer), new FrameworkPropertyMetadata(typeof(HexViewer)));
     }
+
+    public HexViewer()
+    {
+        
+    }
+
+    
+
+
 }

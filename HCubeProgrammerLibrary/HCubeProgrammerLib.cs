@@ -14,6 +14,7 @@ namespace HCubeProgrammerLibrary;
 public partial class HCubeProgrammerLib
 {
     public ObservableCollection<STLinkDevice> STLinkDevices { get; set; }
+    public FirmwareFile DataFile { get; set; }
     public HCubeProgrammerLib()
     {
         if (Environment.Is64BitOperatingSystem)
@@ -44,9 +45,11 @@ public partial class HCubeProgrammerLib
         //{
         //    string? currentItem2 = Marshal.PtrToStringAnsi(xc);
         //}
+        DataFile = new();
 
-        
         FirmwareFile? firmwareFile = OpenFirmwareFile(@"D:\1 Electronic\Electric Fireplace\Codes\Touch-Panel-V6.1\Release\Touch-Panel-V6.1.elf");
+        if (firmwareFile != null)
+            DataFile = firmwareFile;
 
     }
 

@@ -10,7 +10,7 @@ using System.Windows.Controls;
 
 namespace HexManager;
 
-public class HexViewerItem : ContentControl
+public class HexViewerItem : Control
 {
     static HexViewerItem()
     {
@@ -22,32 +22,51 @@ public class HexViewerItem : ContentControl
         
     }
 
-    protected override void OnContentChanged(object oldContent, object newContent)
-    {
-        base.OnContentChanged(oldContent, newContent);
-        if (newContent != null && newContent is string)
-        {
-            string content = (string)newContent;
-            DataBytes = Enumerable.Range(0, content.Length)
-                     .Where(x => x % 2 == 0)
-                     .Select(x => Convert.ToByte(content.Substring(x, 2), 16))
-                     .ToArray();
-        }
+    //protected override void OnContentChanged(object oldContent, object newContent)
+    //{
+    //    //base.OnContentChanged(oldContent, newContent);
+    //    //if (newContent != null && newContent is string)
+    //    //{
+    //    //    string content = (string)newContent;
+    //    //    DataBytes = Enumerable.Range(0, content.Length)
+    //    //             .Where(x => x % 2 == 0)
+    //    //             .Select(x => Convert.ToByte(content.Substring(x, 2), 16))
+    //    //             .ToArray();
+    //    //}
 
-    }
-
-
-
-
+    //}
 
     public byte[] DataBytes
     {
         get { return (byte[])GetValue(DataBytesProperty); }
         set { SetValue(DataBytesProperty, value); }
     }
-    // Using a DependencyProperty as the backing store for DataBytes.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty DataBytesProperty =
-        DependencyProperty.Register("DataBytes", typeof(byte[]), typeof(HexViewerItem), new PropertyMetadata(null));
+        DependencyProperty.Register("DataBytes", typeof(byte[]), typeof(HexViewerItem), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+
+    public int Address
+    {
+        get { return (int)GetValue(AddressProperty); }
+        set { SetValue(AddressProperty, value); }
+    }
+    public static readonly DependencyProperty AddressProperty =
+        DependencyProperty.Register("Address", typeof(int), typeof(HexViewerItem), new FrameworkPropertyMetadata(0,OnAddressChanged));
+    private static void OnAddressChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        HexViewerItem hexViewerItem = (HexViewerItem)d;
+        hexViewerItem.AddressString = string.Format("0x{0:X8}", e.NewValue);
+    }
+
+
+    public string AddressString
+    {
+        get { return (string)GetValue(AddressStringProperty); }
+        set { SetValue(AddressStringProperty, value); }
+    }
+    public static readonly DependencyProperty AddressStringProperty =
+        DependencyProperty.Register("AddressString", typeof(string), typeof(HexViewerItem), new FrameworkPropertyMetadata(string.Empty));
+
 
 
 

@@ -12,4 +12,8 @@
     <Folder Include="Commands\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HCubeProgrammerLibrary\HCubeProgrammerLibrary.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -11,23 +11,10 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <HexMgr:HexViewer BorderBrush="Beige">
+        <HexMgr:HexViewer x:Name="HWFile" BorderBrush="Beige" />
 
-            <HexMgr:HexViewerItem Content="B47146490840004900095E49008E44F5"/>
-            <HexMgr:HexViewerItem Content="0B8B4201D3CB03C01A5241830B8B426A"/>
-            <HexMgr:HexViewerItem Content="01C01A524103098B4201D30B01C01AA2"/>
-            <HexMgr:HexViewerItem Content="29F7D076E7704703460B437FD400"/>
 
-        </HexMgr:HexViewer>
 
-        <HexMgr:HexByte Grid.Row="1" 
-                        DisplayMode="BinaryString" 
-                        Data="255" 
-                        CanEdit="True"
-                        Width="30" 
-                        Height="30"/>
-        
     </Grid>
 </Window>

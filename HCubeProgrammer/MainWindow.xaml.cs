@@ -14,10 +14,16 @@ namespace HCubeProgrammer;
 
 public partial class MainWindow : Window
 {
-    public HCubeProgrammerLib hCube { get; set; }
+    public HCubeProgrammerLib hCube { get; set; } = new();
     public MainWindow()
     {
         InitializeComponent();
-        hCube = new();
+        Loaded += MainWindow_Loaded;
+        
+    }
+
+    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    {
+        HWFile.DataFile = hCube.DataFile;
     }
 }
