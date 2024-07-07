@@ -73,7 +73,7 @@ public class HexByteModel: ModelBase
                 Data = Convert.ToByte(value, 16);
             else
                 Data = 0;
-            _HexString = value; 
+            _HexString = value.ToUpper(); 
             OnPropertyChanged(nameof(HexString)); 
         }
 	}
@@ -176,20 +176,6 @@ public class HexByteModel: ModelBase
     {
         get { return _Address; }
         set { _Address = value; OnPropertyChanged(nameof(Address)); }
-    }
-
-    private bool _CanEdit;
-    public bool CanEdit
-    {
-        get { return _CanEdit; }
-        set { _CanEdit = value; OnPropertyChanged(nameof(CanEdit)); }
-    }
-
-    private bool _EditStatus;
-    public bool EditStatus
-    {
-        get { return _EditStatus; }
-        set { _EditStatus = value; OnPropertyChanged(nameof(EditStatus)); }
     }
 
     private bool _IsSelected;

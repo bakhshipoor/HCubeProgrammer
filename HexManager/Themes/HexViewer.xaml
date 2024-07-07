@@ -68,8 +68,7 @@
                 Value="Center"/>
         <Setter Property="Grid.IsSharedSizeScope" 
                 Value="True"/>
-        <Setter Property="AlternationCount"
-                Value="2"/>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:HexViewer}">
@@ -77,7 +76,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="true">
-                            <ScrollViewer Name="_tv_scrollviewer_"
+                        <ScrollViewer Name="_tv_scrollviewer_"
                                       Background="{TemplateBinding Background}"
                                       Focusable="false"
                                       CanContentScroll="false"
@@ -195,7 +194,7 @@
                                         <!-- 50 -->
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    
+
                                     <!--#region Spliters-->
                                     <GridSplitter Grid.Column="1" Style="{StaticResource HexGridSplitter}" />
                                     <GridSplitter Grid.Column="3" Style="{StaticResource HexGridSplitter}"/>
@@ -216,7 +215,7 @@
                                     <GridSplitter Grid.Column="31" Style="{StaticResource HexGridSplitter}"/>
                                     <GridSplitter Grid.Column="33" Style="{StaticResource HexGridSplitter}"/>
                                     <!--#endregion Spliters-->
-                                    
+
                                     <TextBlock Grid.Column="0" Text="Address" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <TextBlock Grid.Column="2" Text="0" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <TextBlock Grid.Column="4" Text="1" Style="{StaticResource HexHeaderTextBlock}"/>
@@ -237,10 +236,68 @@
                                     <TextBlock Grid.Column="34" Grid.ColumnSpan="17" Text="ASCII" Style="{StaticResource HexHeaderTextBlock}"/>
                                     <Border Grid.ColumnSpan="51" BorderBrush="Gray" BorderThickness="0 0 0 2"/>
                                 </Grid>
-                                <ItemsPresenter Grid.Row="1" />
+                                <Grid x:Name="PART_GrdHexCollectionData" Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition SharedSizeGroup="AddressColumn"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn0"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumn0"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn1"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumn1"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn2"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumn2"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn3"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumn3"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn4"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumn4"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn5"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumn5"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn6"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumn6"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn7"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumn7"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn8"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumn8"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn9"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumn9"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn10"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumnA"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn11"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumnB"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn12"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumnC"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn13"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumnD"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn14"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumnE"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn15"/>
+                                        <ColumnDefinition SharedSizeGroup="DataColumnF"/>
+                                        <ColumnDefinition SharedSizeGroup="SplitterColumn16"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumn0"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumn1"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumn2"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumn3"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumn4"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumn5"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumn6"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumn7"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumn8"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumn9"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumnA"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumnB"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumnC"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumnD"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumnE"/>
+                                        <ColumnDefinition SharedSizeGroup="ASCIIColumnF"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+
+
+                                </Grid>
                             </Grid>
+
                         </ScrollViewer>
-                        
+
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled"
