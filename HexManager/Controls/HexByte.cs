@@ -1,35 +1,22 @@
-﻿using HexManager.Helpers;
-using HexManager.Models;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HexManager.Models;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Markup;
-using System.Windows.Media;
 using static HexManager.Helpers.HexDisplayModeEnum;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Runtime.CompilerServices.RuntimeHelpers;
 
 namespace HexManager;
 
 [TemplatePart(Name = ElementTextBoxHexData, Type = typeof(TextBox))]
-public class HexByte : FrameworkElement
+public class HexByte : Control
 {
 
     private const string ElementTextBoxHexData = "PART_txtHexData";
     public TextBox txtHexData;
 
-    //static HexByte()
-    //{
-    //    DefaultStyleKeyProperty.OverrideMetadata(typeof(HexByte), new FrameworkPropertyMetadata(typeof(HexByte)));
-    //}
+    static HexByte()
+    {
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(HexByte), new FrameworkPropertyMetadata(typeof(HexByte)));
+    }
 
     public HexByte()
     {
@@ -41,15 +28,15 @@ public class HexByte : FrameworkElement
         HexByteData = hexByteModel;
     }
 
-    protected override void OnRender(DrawingContext drawingContext)
-    {
-        base.OnRender(drawingContext);
-        drawingContext.DrawRectangle(Brushes.LightGray, null, new Rect(2, 2, RenderSize.Width-2, RenderSize.Height-2));
-        var typeface = new Typeface("Courier New");
-        var formattedText = new FormattedText(HexByteText, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
-                typeface, 12, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
-        drawingContext.DrawText(formattedText, new Point(2, 2));
-    }
+    //protected override void OnRender(DrawingContext drawingContext)
+    //{
+    //    base.OnRender(drawingContext);
+    //    drawingContext.DrawRectangle(Brushes.LightGray, null, new Rect(2, 2, RenderSize.Width-2, RenderSize.Height-2));
+    //    var typeface = new Typeface("Courier New");
+    //    var formattedText = new FormattedText(HexByteText, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+    //            typeface, 12, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
+    //    drawingContext.DrawText(formattedText, new Point(2, 2));
+    //}
 
     public override void OnApplyTemplate()
     {
@@ -127,12 +114,12 @@ public class HexByte : FrameworkElement
         }
     }
 
-    //protected override void OnPreviewMouseDoubleClick(MouseButtonEventArgs e)
-    //{
-    //    base.OnPreviewMouseDoubleClick(e);
-    //    if (CanEdit)
-    //        EditMode = true;
-    //}
+    protected override void OnPreviewMouseDoubleClick(MouseButtonEventArgs e)
+    {
+        base.OnPreviewMouseDoubleClick(e);
+        if (CanEdit)
+            EditMode = true;
+    }
 
     public HexByteModel HexByteData
     {

@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <HexMgr:HexViewer x:Name="HWFile" BorderBrush="Beige" />
         <!--<HexMgr:HexByte Width="100" Height="50" DisplayMode="HexString" HexByteText="FF"/>-->
-
+        
 
     </Grid>
 </Window>

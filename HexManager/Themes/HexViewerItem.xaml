@@ -62,23 +62,23 @@
             </Grid.ColumnDefinitions>-->
 
             <!--#region Vertical Lines -->
-            <!--<Rectangle Grid.Column="1" Stroke="{StaticResource VerticalLineColor}" Width="2" StrokeThickness="2" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="3" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="5" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="7" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="9" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="11" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="13" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="15" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="17" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="19" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="21" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="23" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="25" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="27" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="29" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="31" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>
-            <Rectangle Grid.Column="33" Stroke="{StaticResource VerticalLineColor}" Width="2" StrokeThickness="2" SnapsToDevicePixels="True"/>-->
+            <!--<Rectangle Grid.Column="1" Stroke="{StaticResource VerticalLineColor}" Width="2" StrokeThickness="2" SnapsToDevicePixels="True"/>1
+            <Rectangle Grid.Column="3" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>3
+            <Rectangle Grid.Column="5" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>5
+            <Rectangle Grid.Column="7" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>7
+            <Rectangle Grid.Column="9" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" SnapsToDevicePixels="True"/>9
+            <Rectangle Grid.Column="11" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>11
+            <Rectangle Grid.Column="13" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>13
+            <Rectangle Grid.Column="15" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>15
+            <Rectangle Grid.Column="17" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" SnapsToDevicePixels="True"/>17
+            <Rectangle Grid.Column="19" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>19
+            <Rectangle Grid.Column="21" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>21
+            <Rectangle Grid.Column="23" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>23
+            <Rectangle Grid.Column="25" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" SnapsToDevicePixels="True"/>25
+            <Rectangle Grid.Column="27" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>27
+            <Rectangle Grid.Column="29" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="1.5 3.5" SnapsToDevicePixels="True"/>29
+            <Rectangle Grid.Column="31" Stroke="{StaticResource VerticalLineColor}" Width="1" StrokeThickness="1" StrokeDashArray="0.5 2" SnapsToDevicePixels="True"/>31
+            <Rectangle Grid.Column="33" Stroke="{StaticResource VerticalLineColor}" Width="2" StrokeThickness="2" SnapsToDevicePixels="True"/>33-->
             <!--#endregion Vertical Lines -->
 
             <!--<TextBlock Grid.Column="0" Text="{Binding AddressString,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=local:HexViewerItem}}" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
