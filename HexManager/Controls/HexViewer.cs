@@ -1,24 +1,23 @@
 ﻿using HCubeProgrammerLibrary.FirmwareFileData;
-using HexManager.Controls;
 using HexManager.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using static HexManager.Helpers.HexDisplayModeEnum;
+using System.Windows.Threading;
 
 namespace HexManager;
 
 [TemplatePart(Name = ElementGridHexDataCollection, Type = typeof(Grid))]
-public class HexViewer : ItemsControl
+[TemplatePart(Name = ElementScrollBarScrVertical, Type = typeof(Grid))]
+public class HexViewer : Control
 {
     private const string ElementGridHexDataCollection = "PART_GrdHexCollectionData";
+    private const string ElementScrollBarScrVertical = "PART_ScrVertical";
     public Grid GrdHexDataCollection;
+    public ScrollBar ScrVertical;
 
     static HexViewer()
     {
@@ -28,14 +27,16 @@ public class HexViewer : ItemsControl
     public HexViewer()
     {
         GrdHexDataCollection = new();
+        ScrVertical = new();
     }
 
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
-
+        ScrollViewer.SetVerticalScrollBarVisibility(this, ScrollBarVisibility.Disabled);
+        ScrollViewer.SetHorizontalScrollBarVisibility(this, ScrollBarVisibility.Visible);
         GrdHexDataCollection = (Grid)GetTemplateChild(ElementGridHexDataCollection);
-
+        ScrVertical = (ScrollBar)GetTemplateChild(ElementScrollBarScrVertical);
     }
 
     protected override void OnRender(DrawingContext drawingContext)
@@ -87,9 +88,6 @@ public class HexViewer : ItemsControl
     public Size ViewArea { get; private set; }
     public int ViewAreaRowCount { get; private set; }
     public double DefaultRowHeight { get; private set; } = 30.0;
-    //public double ViewAreaRowHeight { get; private set; } = 30.0;
-
-
 
     public double ViewAreaRowHeight
     {
@@ -98,8 +96,6 @@ public class HexViewer : ItemsControl
     }
     public static readonly DependencyProperty ViewAreaRowHeightProperty =
         DependencyProperty.Register("ViewAreaRowHeight", typeof(double), typeof(HexViewer), new FrameworkPropertyMetadata(30.0,FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-
 
     private void FillHexData(HexViewModel hexViewModel)
     {
@@ -192,167 +188,122 @@ public class HexViewer : ItemsControl
 
     private static void OnViewAreaChanged(HexViewer hexViewer)
     {
-        hexViewer.ViewAreaRowCount = (int)(hexViewer.ViewArea.Height / hexViewer.DefaultRowHeight);
-        double leftOverHeight = hexViewer.ViewArea.Height % hexViewer.DefaultRowHeight;
+        hexViewer.ViewAreaRowCount = (int)((hexViewer.ViewArea.Height-15) / hexViewer.DefaultRowHeight);
+        double leftOverHeight = (hexViewer.ViewArea.Height-15) % hexViewer.DefaultRowHeight;
         hexViewer.ViewAreaRowHeight = hexViewer.DefaultRowHeight + (leftOverHeight / (hexViewer.ViewAreaRowCount));
         hexViewer.ViewAreaRowCount--; // Columns Header
+        hexViewer.ScrVertical.Margin = new Thickness(0, hexViewer.ViewAreaRowHeight, 0, 15);
+        if (hexViewer.ViewAreaRowCount<=0)
+        {
+            hexViewer.GrdHexDataCollection.Children.Clear();
+            hexViewer.GrdHexDataCollection.RowDefinitions.Clear();
+            return;
+        }
 
-        hexViewer.GrdHexDataCollection.Children.Clear();
-        hexViewer.GrdHexDataCollection.RowDefinitions.Clear();
-        
+        GridLength gridRowHeight = new GridLength(hexViewer.ViewAreaRowHeight, GridUnitType.Pixel);
+        RowDefinition[] gridRows = new RowDefinition[hexViewer.ViewAreaRowCount];
+        Rectangle[] gridRowsRects = new Rectangle[hexViewer.ViewAreaRowCount];
 
         for (int itemRow = 0; itemRow < hexViewer.ViewAreaRowCount; itemRow++)
         {
-            RowDefinition row = new RowDefinition();
-            row.Height = new GridLength(hexViewer.ViewAreaRowHeight, GridUnitType.Pixel);
-            hexViewer.GrdHexDataCollection.RowDefinitions.Add(row);
+            RowDefinition gridRow = new RowDefinition();
+            gridRow.Height = gridRowHeight;
+            gridRows[itemRow] = gridRow;
+
             Rectangle rect = new();
             rect.Fill = itemRow % 2 == 0 ? Brushes.AliceBlue : Brushes.Azure;
             Grid.SetRow(rect, itemRow);
-            Grid.SetColumnSpan(rect, 51);
-            hexViewer.GrdHexDataCollection.Children.Add(rect);
+            Grid.SetColumn(rect, 0);
+            Grid.SetColumnSpan(rect, 67);
+            gridRowsRects[itemRow] = rect;
         }
+
+        hexViewer.GrdHexDataCollection.Children.Clear();
+        hexViewer.GrdHexDataCollection.RowDefinitions.Clear();
+
+        for (int itemRow = 0; itemRow < hexViewer.ViewAreaRowCount; itemRow++)
+        {
+            hexViewer.GrdHexDataCollection.RowDefinitions.Add(gridRows[itemRow]);
+            hexViewer.GrdHexDataCollection.Children.Add(gridRowsRects[itemRow]);
+        }
+
         DrawVerticalLines(hexViewer.GrdHexDataCollection, hexViewer.ViewAreaRowCount, hexViewer.ViewAreaRowHeight);
     }
 
-    private static void DrawVerticalLines(Grid viewGrid,int rowCount,double maxHeight)
+    private static void DrawVerticalLines(Grid viewGrid,int gridRowCount,double maxHeight)
     {
-        for (int itemRow = 0; itemRow < rowCount; itemRow++)
-        {
-            Line vlAddress = MainVerticalLine(maxHeight);
-            Grid.SetColumn(vlAddress, 1);
-            Grid.SetRow(vlAddress, itemRow);
-            viewGrid.Children.Add(vlAddress);
+        if (gridRowCount <= 0) return;
+        for (int vlMainCounter = 1; vlMainCounter < 34; vlMainCounter += 32)
+            viewGrid.Children.Add(MainVerticalLine(maxHeight, vlMainCounter, gridRowCount));
 
-            Line vlAscii = MainVerticalLine(maxHeight);
-            Grid.SetColumn(vlAscii, 33);
-            Grid.SetRow(vlAscii, itemRow);
-            viewGrid.Children.Add(vlAscii);
+        for (int vlOneByteCounter = 3; vlOneByteCounter < 32; vlOneByteCounter += 4)
+            viewGrid.Children.Add(OneByteVerticalLine(maxHeight, vlOneByteCounter, gridRowCount));
 
-            Line vlByte00 = OneByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte00, 3);
-            Grid.SetRow(vlByte00, itemRow);
-            viewGrid.Children.Add(vlByte00);
+        for (int vlTwoByteCounter = 5; vlTwoByteCounter < 30; vlTwoByteCounter += 8)
+            viewGrid.Children.Add(TwoByteVerticalLine(maxHeight, vlTwoByteCounter, gridRowCount));
 
-            Line vlByte02 = OneByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte02, 7);
-            Grid.SetRow(vlByte02, itemRow);
-            viewGrid.Children.Add(vlByte02);
+        for (int vlFourByteCounter = 9; vlFourByteCounter < 26; vlFourByteCounter += 8)
+            viewGrid.Children.Add(FourByteVerticalLine(maxHeight, vlFourByteCounter, gridRowCount));
 
-            Line vlByte04 = OneByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte04, 11);
-            Grid.SetRow(vlByte04, itemRow);
-            viewGrid.Children.Add(vlByte04);
-
-            Line vlByte06 = OneByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte06, 15);
-            Grid.SetRow(vlByte06, itemRow);
-            viewGrid.Children.Add(vlByte06);
-
-            Line vlByte08 = OneByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte08, 19);
-            Grid.SetRow(vlByte08, itemRow);
-            viewGrid.Children.Add(vlByte08);
-
-            Line vlByte10 = OneByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte10, 23);
-            Grid.SetRow(vlByte10, itemRow);
-            viewGrid.Children.Add(vlByte10);
-
-            Line vlByte12 = OneByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte12, 27);
-            Grid.SetRow(vlByte12, itemRow);
-            viewGrid.Children.Add(vlByte12);
-
-            Line vlByte14 = OneByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte14, 31);
-            Grid.SetRow(vlByte14, itemRow);
-            viewGrid.Children.Add(vlByte14);
-
-            Line vlByte01 = TwoByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte01, 5);
-            Grid.SetRow(vlByte01, itemRow);
-            viewGrid.Children.Add(vlByte01);
-
-            Line vlByte05 = TwoByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte05, 13);
-            Grid.SetRow(vlByte05, itemRow);
-            viewGrid.Children.Add(vlByte05);
-
-            Line vlByte09 = TwoByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte09, 21);
-            Grid.SetRow(vlByte09, itemRow);
-            viewGrid.Children.Add(vlByte09);
-
-            Line vlByte13 = TwoByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte13, 29);
-            Grid.SetRow(vlByte13, itemRow);
-            viewGrid.Children.Add(vlByte13);
-
-            Line vlByte03 = FourByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte03, 9);
-            Grid.SetRow(vlByte03, itemRow);
-            viewGrid.Children.Add(vlByte03);
-
-            Line vlByte07 = FourByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte07, 17);
-            Grid.SetRow(vlByte07, itemRow);
-            viewGrid.Children.Add(vlByte07);
-
-            Line vlByte11 = FourByteVerticalLine(maxHeight);
-            Grid.SetColumn(vlByte11, 25);
-            Grid.SetRow(vlByte11, itemRow);
-            viewGrid.Children.Add(vlByte11);
-        }
+        for (int vlAsciiCounter=35; vlAsciiCounter<67; vlAsciiCounter+=2)
+            viewGrid.Children.Add(OneByteVerticalLine(maxHeight, vlAsciiCounter, gridRowCount));
     }
 
-    private static Line MainVerticalLine(double maxHeight)
+    private static Line MainVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
     {
         Line vLine = new();
-        vLine.Y2 = maxHeight;
+        vLine.Y2 = maxHeight * gridRowCount;
         vLine.Stroke = Brushes.Gray;
         vLine.StrokeThickness = 2;
         vLine.HorizontalAlignment = HorizontalAlignment.Center;
         vLine.SnapsToDevicePixels = true;
-        //vLine.ClipToBounds=true;
+        Grid.SetColumn(vLine, gridColumn);
+        Grid.SetRow(vLine, 0);
+        Grid.SetRowSpan(vLine, gridRowCount);
         return vLine;
     }
 
-    private static Line OneByteVerticalLine(double maxHeight)
+    private static Line OneByteVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
     {
         Line vLine = new();
-        vLine.Y2 = maxHeight;
+        vLine.Y2 = maxHeight * gridRowCount;
         vLine.Stroke = Brushes.Gray;
         vLine.StrokeThickness = 1;
         vLine.StrokeDashArray = new DoubleCollection() { 0.5, 2 };
         vLine.HorizontalAlignment = HorizontalAlignment.Center;
         vLine.SnapsToDevicePixels = true;
-        //vLine.ClipToBounds = true;
+        Grid.SetColumn(vLine, gridColumn);
+        Grid.SetRow(vLine, 0);
+        Grid.SetRowSpan(vLine, gridRowCount);
         return vLine;
     }
 
-    private static Line TwoByteVerticalLine(double maxHeight)
+    private static Line TwoByteVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
     {
         Line vLine = new();
-        vLine.Y2 = maxHeight;
+        vLine.Y2 = maxHeight * gridRowCount;
         vLine.Stroke = Brushes.Gray;
         vLine.StrokeThickness = 1;
         vLine.StrokeDashArray = new DoubleCollection() { 1.5, 3.5 };
         vLine.HorizontalAlignment = HorizontalAlignment.Center;
         vLine.SnapsToDevicePixels = true;
-        //vLine.ClipToBounds = true;
+        Grid.SetColumn(vLine, gridColumn);
+        Grid.SetRow(vLine, 0);
+        Grid.SetRowSpan(vLine, gridRowCount);
         return vLine;
     }
 
-    private static Line FourByteVerticalLine(double maxHeight)
+    private static Line FourByteVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
     {
         Line vLine = new();
-        vLine.Y2 = maxHeight;
+        vLine.Y2 = maxHeight * gridRowCount;
         vLine.Stroke = Brushes.Gray;
         vLine.StrokeThickness = 1;
         vLine.HorizontalAlignment = HorizontalAlignment.Center;
         vLine.SnapsToDevicePixels = true;
-        //vLine.ClipToBounds = true;
+        Grid.SetColumn(vLine, gridColumn);
+        Grid.SetRow(vLine, 0);
+        Grid.SetRowSpan(vLine, gridRowCount);
         return vLine;
     }
 
