@@ -4,9 +4,12 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Linq;
 
 namespace HexManager;
 
@@ -33,10 +36,17 @@ public class HexViewer : Control
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+
+        _ScreenHeight = SystemParameters.PrimaryScreenHeight;
+        _MaxRowCount = (int)(_ScreenHeight / _DefaultRowHeight);
+        _MaxCellCount = _MaxRowCount * 32;
+
         ScrollViewer.SetVerticalScrollBarVisibility(this, ScrollBarVisibility.Disabled);
         ScrollViewer.SetHorizontalScrollBarVisibility(this, ScrollBarVisibility.Visible);
         GrdHexDataCollection = (Grid)GetTemplateChild(ElementGridHexDataCollection);
         ScrVertical = (ScrollBar)GetTemplateChild(ElementScrollBarScrVertical);
+
+        InitialViewingArea(this);
     }
 
     protected override void OnRender(DrawingContext drawingContext)
@@ -87,7 +97,7 @@ public class HexViewer : Control
 
     public Size ViewArea { get; private set; }
     public int ViewAreaRowCount { get; private set; }
-    public double DefaultRowHeight { get; private set; } = 30.0;
+    public int ViewAreaCellCount { get; private set; }
 
     public double ViewAreaRowHeight
     {
@@ -96,6 +106,28 @@ public class HexViewer : Control
     }
     public static readonly DependencyProperty ViewAreaRowHeightProperty =
         DependencyProperty.Register("ViewAreaRowHeight", typeof(double), typeof(HexViewer), new FrameworkPropertyMetadata(30.0,FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+    internal double _ScreenHeight;
+    internal int _MaxRowCount;
+    internal int _MaxCellCount;
+    internal double _DefaultRowHeight = 30.0;
+    internal RowDefinition[] _GridRows; 
+    internal Rectangle[] _GridRowsRects;
+    internal int _GridNumberOfColumns = 67;
+    internal int _NumberOfGridVerticalLines = 33;
+    internal Line[] _GridVerticalLines = new Line[33];
+
+    private static void InitialViewingArea(HexViewer hexViewer)
+    {
+        hexViewer._GridRows = new RowDefinition[hexViewer._MaxRowCount];
+        hexViewer._GridRowsRects = new Rectangle[hexViewer._MaxRowCount];
+        for (int itemRow=0;itemRow<hexViewer._MaxRowCount;itemRow++)
+        {
+            hexViewer._GridRows[itemRow] = CreateRowDefinition(hexViewer);
+            hexViewer._GridRowsRects[itemRow] = CreateGridRowRectangle(itemRow, hexViewer._GridNumberOfColumns);
+        }
+        CreateVerticalLines(hexViewer);
+    }
 
     private void FillHexData(HexViewModel hexViewModel)
     {
@@ -188,10 +220,15 @@ public class HexViewer : Control
 
     private static void OnViewAreaChanged(HexViewer hexViewer)
     {
-        hexViewer.ViewAreaRowCount = (int)((hexViewer.ViewArea.Height-15) / hexViewer.DefaultRowHeight);
-        double leftOverHeight = (hexViewer.ViewArea.Height-15) % hexViewer.DefaultRowHeight;
-        hexViewer.ViewAreaRowHeight = hexViewer.DefaultRowHeight + (leftOverHeight / (hexViewer.ViewAreaRowCount));
+        hexViewer.ViewAreaRowCount = (int)((hexViewer.ViewArea.Height-15) / hexViewer._DefaultRowHeight);
+        double leftOverHeight = (hexViewer.ViewArea.Height-15) % hexViewer._DefaultRowHeight;
+        hexViewer.ViewAreaRowHeight = hexViewer._DefaultRowHeight + (leftOverHeight / (hexViewer.ViewAreaRowCount));
         hexViewer.ViewAreaRowCount--; // Columns Header
+        if (hexViewer.ViewAreaRowCount > hexViewer._MaxRowCount)
+        {
+            hexViewer._MaxRowCount = hexViewer.ViewAreaRowCount;
+            InitialViewingArea(hexViewer);
+        }
         hexViewer.ScrVertical.Margin = new Thickness(0, hexViewer.ViewAreaRowHeight, 0, 15);
         if (hexViewer.ViewAreaRowCount<=0)
         {
@@ -200,59 +237,44 @@ public class HexViewer : Control
             return;
         }
 
-        GridLength gridRowHeight = new GridLength(hexViewer.ViewAreaRowHeight, GridUnitType.Pixel);
-        RowDefinition[] gridRows = new RowDefinition[hexViewer.ViewAreaRowCount];
-        Rectangle[] gridRowsRects = new Rectangle[hexViewer.ViewAreaRowCount];
-
-        for (int itemRow = 0; itemRow < hexViewer.ViewAreaRowCount; itemRow++)
-        {
-            RowDefinition gridRow = new RowDefinition();
-            gridRow.Height = gridRowHeight;
-            gridRows[itemRow] = gridRow;
-
-            Rectangle rect = new();
-            rect.Fill = itemRow % 2 == 0 ? Brushes.AliceBlue : Brushes.Azure;
-            Grid.SetRow(rect, itemRow);
-            Grid.SetColumn(rect, 0);
-            Grid.SetColumnSpan(rect, 67);
-            gridRowsRects[itemRow] = rect;
-        }
-
         hexViewer.GrdHexDataCollection.Children.Clear();
         hexViewer.GrdHexDataCollection.RowDefinitions.Clear();
 
         for (int itemRow = 0; itemRow < hexViewer.ViewAreaRowCount; itemRow++)
         {
-            hexViewer.GrdHexDataCollection.RowDefinitions.Add(gridRows[itemRow]);
-            hexViewer.GrdHexDataCollection.Children.Add(gridRowsRects[itemRow]);
+            hexViewer.GrdHexDataCollection.RowDefinitions.Add(hexViewer._GridRows[itemRow]);
+            hexViewer.GrdHexDataCollection.Children.Add(hexViewer._GridRowsRects[itemRow]);
         }
 
-        DrawVerticalLines(hexViewer.GrdHexDataCollection, hexViewer.ViewAreaRowCount, hexViewer.ViewAreaRowHeight);
+        AddVerticalLinesToGrid(hexViewer);
     }
 
-    private static void DrawVerticalLines(Grid viewGrid,int gridRowCount,double maxHeight)
+    private static RowDefinition CreateRowDefinition(HexViewer hexViewer)
     {
-        if (gridRowCount <= 0) return;
-        for (int vlMainCounter = 1; vlMainCounter < 34; vlMainCounter += 32)
-            viewGrid.Children.Add(MainVerticalLine(maxHeight, vlMainCounter, gridRowCount));
-
-        for (int vlOneByteCounter = 3; vlOneByteCounter < 32; vlOneByteCounter += 4)
-            viewGrid.Children.Add(OneByteVerticalLine(maxHeight, vlOneByteCounter, gridRowCount));
-
-        for (int vlTwoByteCounter = 5; vlTwoByteCounter < 30; vlTwoByteCounter += 8)
-            viewGrid.Children.Add(TwoByteVerticalLine(maxHeight, vlTwoByteCounter, gridRowCount));
-
-        for (int vlFourByteCounter = 9; vlFourByteCounter < 26; vlFourByteCounter += 8)
-            viewGrid.Children.Add(FourByteVerticalLine(maxHeight, vlFourByteCounter, gridRowCount));
-
-        for (int vlAsciiCounter=35; vlAsciiCounter<67; vlAsciiCounter+=2)
-            viewGrid.Children.Add(OneByteVerticalLine(maxHeight, vlAsciiCounter, gridRowCount));
+        RowDefinition rowDefinition = new RowDefinition();
+        Binding binding = new();
+        binding.Source = hexViewer;
+        binding.Path = new PropertyPath("ViewAreaRowHeight");
+        binding.Mode = BindingMode.OneWay;
+        binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+        BindingOperations.SetBinding(rowDefinition, RowDefinition.HeightProperty, binding);
+        return rowDefinition;
     }
 
-    private static Line MainVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
+    private static Rectangle CreateGridRowRectangle(int rowIndex, int numberOfColumns)
+    {
+        Rectangle rect = new Rectangle();
+        rect.Fill = rowIndex % 2 == 0 ? Brushes.AliceBlue : Brushes.Azure;
+        Grid.SetRow(rect, rowIndex);
+        Grid.SetColumn(rect, 0);
+        Grid.SetColumnSpan(rect, numberOfColumns);
+        return rect;
+    }
+
+    private static Line CreateMainVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
     {
         Line vLine = new();
-        vLine.Y2 = maxHeight * gridRowCount;
+        vLine.Y2 = maxHeight;
         vLine.Stroke = Brushes.Gray;
         vLine.StrokeThickness = 2;
         vLine.HorizontalAlignment = HorizontalAlignment.Center;
@@ -263,10 +285,10 @@ public class HexViewer : Control
         return vLine;
     }
 
-    private static Line OneByteVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
+    private static Line CreateOneByteVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
     {
         Line vLine = new();
-        vLine.Y2 = maxHeight * gridRowCount;
+        vLine.Y2 = maxHeight;
         vLine.Stroke = Brushes.Gray;
         vLine.StrokeThickness = 1;
         vLine.StrokeDashArray = new DoubleCollection() { 0.5, 2 };
@@ -278,10 +300,10 @@ public class HexViewer : Control
         return vLine;
     }
 
-    private static Line TwoByteVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
+    private static Line CreateTwoByteVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
     {
         Line vLine = new();
-        vLine.Y2 = maxHeight * gridRowCount;
+        vLine.Y2 = maxHeight;
         vLine.Stroke = Brushes.Gray;
         vLine.StrokeThickness = 1;
         vLine.StrokeDashArray = new DoubleCollection() { 1.5, 3.5 };
@@ -293,10 +315,10 @@ public class HexViewer : Control
         return vLine;
     }
 
-    private static Line FourByteVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
+    private static Line CreateFourByteVerticalLine(double maxHeight, int gridColumn, int gridRowCount)
     {
         Line vLine = new();
-        vLine.Y2 = maxHeight * gridRowCount;
+        vLine.Y2 = maxHeight;
         vLine.Stroke = Brushes.Gray;
         vLine.StrokeThickness = 1;
         vLine.HorizontalAlignment = HorizontalAlignment.Center;
@@ -307,4 +329,34 @@ public class HexViewer : Control
         return vLine;
     }
 
+    private static void CreateVerticalLines(HexViewer hexViewer)
+    {
+        for (int itemVLine = 0; itemVLine < hexViewer._NumberOfGridVerticalLines; itemVLine++)
+        {
+            if (itemVLine == 0 || itemVLine == 16)
+            {
+                hexViewer._GridVerticalLines[itemVLine] = CreateMainVerticalLine(hexViewer._MaxRowCount * hexViewer._DefaultRowHeight, (itemVLine * 2) + 1, hexViewer._MaxRowCount);
+            }
+            else if (itemVLine % 2 == 1 || itemVLine > 16)
+            {
+                hexViewer._GridVerticalLines[itemVLine] = CreateOneByteVerticalLine(hexViewer._MaxRowCount * hexViewer._DefaultRowHeight, (itemVLine * 2) + 1, hexViewer._MaxRowCount);
+            }
+            else if (itemVLine > 0 && itemVLine < 16 && (itemVLine - 2) % 4 == 0)
+            {
+                hexViewer._GridVerticalLines[itemVLine] = CreateTwoByteVerticalLine(hexViewer._MaxRowCount * hexViewer._DefaultRowHeight, (itemVLine * 2) + 1, hexViewer._MaxRowCount);
+            }
+            else if (itemVLine > 0 && itemVLine < 16 && itemVLine % 4 == 0)
+            {
+                hexViewer._GridVerticalLines[itemVLine] = CreateFourByteVerticalLine(hexViewer._MaxRowCount * hexViewer._DefaultRowHeight, (itemVLine * 2) + 1, hexViewer._MaxRowCount);
+            }
+        }
+    }
+
+    private static void AddVerticalLinesToGrid(HexViewer hexViewer)
+    {
+        for (int itemVLine = 0; itemVLine < hexViewer._NumberOfGridVerticalLines; itemVLine++)
+        {
+            hexViewer.GrdHexDataCollection.Children.Add(hexViewer._GridVerticalLines[itemVLine]);
+        }
+    }
 }
