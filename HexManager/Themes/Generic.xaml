@@ -7,6 +7,8 @@
 		<ResourceDictionary Source="/HexManager;component/Themes/HexViewer.xaml"/>
         <ResourceDictionary Source="/HexManager;component/Themes/HexViewerItem.xaml"/>
 		<ResourceDictionary Source="/HexManager;component/Themes/HexByte.xaml"/>
+        <ResourceDictionary Source="/HexManager;component/Themes/Address.xaml"/>
+		<ResourceDictionary Source="/HexManager;component/Themes/HexEditor.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
 

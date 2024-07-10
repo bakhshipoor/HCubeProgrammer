@@ -1,7 +1,9 @@
 ﻿using HexManager.Models;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using static HexManager.Helpers.HexDisplayModeEnum;
 
 namespace HexManager;
@@ -13,10 +15,10 @@ public class HexByte : Control
     private const string ElementTextBoxHexData = "PART_txtHexData";
     public TextBox txtHexData;
 
-    static HexByte()
-    {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(HexByte), new FrameworkPropertyMetadata(typeof(HexByte)));
-    }
+    //static HexByte()
+    //{
+    //    DefaultStyleKeyProperty.OverrideMetadata(typeof(HexByte), new FrameworkPropertyMetadata(typeof(HexByte)));
+    //}
 
     public HexByte()
     {
@@ -28,10 +30,20 @@ public class HexByte : Control
         HexByteData = hexByteModel;
     }
 
+    protected override void OnRender(DrawingContext drawingContext)
+    {
+        base.OnRender(drawingContext);
+        drawingContext.DrawRectangle(Brushes.LightGray, null, new Rect(2, 2, 28, 28));
+        var typeface = new Typeface("Courier New");
+        var formattedText = new FormattedText(HexByteText, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+                typeface, 12, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
+        drawingContext.DrawText(formattedText, new Point(2, 2));
+    }
+
     //protected override void OnRender(DrawingContext drawingContext)
     //{
     //    base.OnRender(drawingContext);
-    //    drawingContext.DrawRectangle(Brushes.LightGray, null, new Rect(2, 2, RenderSize.Width-2, RenderSize.Height-2));
+    //    drawingContext.DrawRectangle(Brushes.LightGray, null, new Rect(2, 2, RenderSize.Width - 2, RenderSize.Height - 2));
     //    var typeface = new Typeface("Courier New");
     //    var formattedText = new FormattedText(HexByteText, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
     //            typeface, 12, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
