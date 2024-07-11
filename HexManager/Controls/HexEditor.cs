@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace HexManager;
 
-public class HexEditor : DataGrid
+public class HexEditor : Control
 {
     static HexEditor()
     {

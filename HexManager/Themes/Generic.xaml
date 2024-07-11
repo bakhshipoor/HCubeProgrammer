@@ -9,6 +9,7 @@
 		<ResourceDictionary Source="/HexManager;component/Themes/HexByte.xaml"/>
         <ResourceDictionary Source="/HexManager;component/Themes/Address.xaml"/>
 		<ResourceDictionary Source="/HexManager;component/Themes/HexEditor.xaml"/>
+        <ResourceDictionary Source="/HexManager;component/Themes/HexEditorContent.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
 

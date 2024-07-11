@@ -38,6 +38,11 @@ public class HexByte : Control
         var formattedText = new FormattedText(HexByteText, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
                 typeface, 12, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
         drawingContext.DrawText(formattedText, new Point(2, 2));
+        DashStyle dashValues = new();
+        dashValues.Dashes = new DoubleCollection() { 5.0, 2.0, 15.0, 4.0 };
+        Pen blackPen = new Pen(Brushes.Black, 5);
+        blackPen.DashStyle = dashValues;
+        drawingContext.DrawLine(blackPen, new Point(0, 0), new Point(30, 30));
     }
 
     //protected override void OnRender(DrawingContext drawingContext)
