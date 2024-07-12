@@ -31,66 +31,18 @@
                             <Grid Grid.Column="0" Background="Beige">
                                 
                             </Grid>
-                            <ScrollViewer 
+                            <local:HexScrollViewer 
                                 Grid.Column="1"
                                 Focusable="False" 
-                                Name="HE_ScrollViewer"
+                                x:Name="PART_ScrollViewer"
                                 VerticalScrollBarVisibility="Visible"
                                 HorizontalScrollBarVisibility="Visible">
-                                
-                                <ScrollViewer.Template>
-                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <!-- content -->
-                                            <ScrollContentPresenter 
-                                                x:Name="PART_ScrollContentPresenter" 
-                                                Grid.RowSpan="2" 
-                                                Grid.ColumnSpan="2" 
-                                                CanContentScroll="{TemplateBinding CanContentScroll}" />
-
-                                            <!-- Vertical Scroll Bar -->
-                                            <ScrollBar 
-                                                Grid.Row="1" 
-                                                Grid.Column="2" 
-                                                Name="PART_VerticalScrollBar"
-                                                Orientation="Vertical"
-                                                Maximum="{TemplateBinding ScrollableHeight}"
-                                                ViewportSize="{TemplateBinding ViewportHeight}"
-                                                Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                                Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
-
-                                            <!-- Horizontal Scroll Bar -->
-                                            <ScrollBar 
-                                                Grid.Row="2" 
-                                                Grid.Column="1"
-                                                Name="PART_HorizontalScrollBar"
-                                                Orientation="Horizontal"
-                                                Maximum="{TemplateBinding ScrollableWidth}"
-                                                ViewportSize="{TemplateBinding ViewportWidth}"
-                                                Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
-
-                                        </Grid>
-                                    </ControlTemplate>
-                                </ScrollViewer.Template>
                                 <Grid>
                                     <StackPanel Orientation="Horizontal">
                                         <local:HexEditorContent ParentHexEditor="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditor}}"/>
                                     </StackPanel>
                                 </Grid>
-                            </ScrollViewer>
+                            </local:HexScrollViewer>
                         </Grid>
                     </Border>
                 </ControlTemplate>

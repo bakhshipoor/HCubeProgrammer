@@ -8,7 +8,8 @@
         <Setter Property="Foreground"
                 Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="BorderBrush" Value="#FF688CAF" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="2 0 0 0"/>
         <Setter Property="Stylus.IsFlicksEnabled"
                 Value="False"/>
         <Setter Property="Template">
@@ -28,8 +29,8 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="Hex Values" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <local:HeaderColumns  Grid.Row="1" ParentHexEditorContent="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditorContent}}"/>
-                            <!--<StackPanel Grid.Row="2" Orientation="Vertical"/>-->
+                            <local:HexEditorContentHeaderColumns Grid.Row="1" ParentHexEditorContent="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditorContent}}"/>
+                            <local:HexEditorContentData Grid.Row="2" ParentHexEditorContent="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditorContent}}"/>
                         </Grid>
 
                     </Border>

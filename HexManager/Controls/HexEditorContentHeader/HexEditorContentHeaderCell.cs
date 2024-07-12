@@ -1,25 +1,30 @@
-﻿using System.Globalization;
+﻿using HexManager.EventArgs;
+using System.ComponentModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace HexManager;
 
-public class HeaderCell : Decorator
+public class HexEditorContentHeaderCell : Decorator
 {
 
-    static HeaderCell()
+    static HexEditorContentHeaderCell()
     {
         
     }
 
-    public HeaderCell(HeaderColumns headerColumns, string text) 
+    public HexEditorContentHeaderCell(HexEditorContentHeaderColumns headerColumns, string text, int columnIndex) 
     {
         ParentHeaderColumns = headerColumns;
         _ParentHexEditor = headerColumns._ParentHexEditor;
         _ParentHexEditorContent = headerColumns.ParentHexEditorContent;
         Text = text;
-        Width = _ParentHexEditorContent.HexEditorContentColumnsWidth;
+        ColumnIndex = columnIndex;
+        MinWidth = _ParentHexEditor.HexEditorContentColumnsMinWidth;
+        Width = MinWidth;
         Height = _ParentHexEditor.HexEditorContentHeaderColumnsHeight;
 
         HeaderCellSplitter child = new HeaderCellSplitter(this);
@@ -28,6 +33,7 @@ public class HeaderCell : Decorator
         child.BorderThickness = new Thickness(_ParentHexEditor.HexEditorContentHeaderSplitterWidth);
         child.BorderBrush = _ParentHexEditor.HexEditorContentHeaderSplitterBackground;
         Child = child;
+        SnapsToDevicePixels = true;
     }
 
     protected override void OnRender(DrawingContext drawingContext)
@@ -80,30 +86,45 @@ public class HeaderCell : Decorator
         return finalSize;
     }
 
-    
     public string Text
     {
         get { return (string)GetValue(TextProperty); }
         set { SetValue(TextProperty, value); }
     }
     public static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register("Text", typeof(string), typeof(HeaderCell), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register("Text", typeof(string), typeof(HexEditorContentHeaderCell), new PropertyMetadata(string.Empty));
 
-    public HeaderColumns ParentHeaderColumns
+    public int ColumnIndex
     {
-        get { return (HeaderColumns)GetValue(ParentHeaderColumnsProperty); }
+        get { return (int)GetValue(ColumnIndexProperty); }
+        set { SetValue(ColumnIndexProperty, value); }
+    }
+    public static readonly DependencyProperty ColumnIndexProperty =
+        DependencyProperty.Register("ColumnIndex", typeof(int), typeof(HexEditorContentHeaderCell), new PropertyMetadata(0));
+
+    public HexEditorContentHeaderColumns ParentHeaderColumns
+    {
+        get { return (HexEditorContentHeaderColumns)GetValue(ParentHeaderColumnsProperty); }
         set { SetValue(ParentHeaderColumnsProperty, value); }
     }
     public static readonly DependencyProperty ParentHeaderColumnsProperty =
-        DependencyProperty.Register("ParentHeaderColumns", typeof(HeaderColumns), typeof(HeaderCell), new FrameworkPropertyMetadata(null, OnParentHeaderColumnsChanged));
+        DependencyProperty.Register("ParentHeaderColumns", typeof(HexEditorContentHeaderColumns), typeof(HexEditorContentHeaderCell), new FrameworkPropertyMetadata(null, OnParentHeaderColumnsChanged));
     private static void OnParentHeaderColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d!=null && d is HeaderCell)
+        if (d!=null && d is HexEditorContentHeaderCell)
         {
-            HeaderCell headerCell = (HeaderCell)d;
-            headerCell._ParentHexEditor = ((HeaderColumns)e.NewValue)._ParentHexEditor;
-            headerCell._ParentHexEditorContent = ((HeaderColumns)e.NewValue).ParentHexEditorContent;
+            HexEditorContentHeaderCell headerCell = (HexEditorContentHeaderCell)d;
+            headerCell._ParentHexEditor = ((HexEditorContentHeaderColumns)e.NewValue)._ParentHexEditor;
+            headerCell._ParentHexEditorContent = ((HexEditorContentHeaderColumns)e.NewValue).ParentHexEditorContent;
         }
+    }
+
+    public static readonly RoutedEvent HeaderCellSizeChangedEvent = EventManager.RegisterRoutedEvent("HeaderCellSizeChanged", RoutingStrategy.Bubble, typeof(HeaderCellSizeEventHandler), typeof(HexEditorContentHeaderCell));
+    [Category("Behavior")]
+    public event HeaderCellSizeEventHandler HeaderCellSizeChanged 
+    { 
+        add { AddHandler(HeaderCellSizeChangedEvent, value); } 
+        remove { RemoveHandler(HeaderCellSizeChangedEvent, value); } 
     }
 
     internal HexEditor _ParentHexEditor;

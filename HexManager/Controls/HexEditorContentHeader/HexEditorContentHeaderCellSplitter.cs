@@ -14,9 +14,10 @@ public class HeaderCellSplitter : Thumb
         EventManager.RegisterClassHandler(typeof(HeaderCellSplitter), DragCompletedEvent, new DragCompletedEventHandler(OnDragCompleted));
     }
 
-    public HeaderCellSplitter(HeaderCell headerCell) 
+    public HeaderCellSplitter(HexEditorContentHeaderCell headerCell) 
     {
         ParentHeaderCell = headerCell;
+        SnapsToDevicePixels = true;
         Initial();
     }
 
@@ -28,13 +29,13 @@ public class HeaderCellSplitter : Thumb
         //BorderBrush = Brushes.Gray;
     }
 
-    public HeaderCell ParentHeaderCell
+    public HexEditorContentHeaderCell ParentHeaderCell
     {
-        get { return (HeaderCell)GetValue(ParentHeaderCellProperty); }
+        get { return (HexEditorContentHeaderCell)GetValue(ParentHeaderCellProperty); }
         set { SetValue(ParentHeaderCellProperty, value); }
     }
     public static readonly DependencyProperty ParentHeaderCellProperty =
-        DependencyProperty.Register("ParentHeaderCell", typeof(HeaderCell), typeof(HeaderCellSplitter), new PropertyMetadata(null));
+        DependencyProperty.Register("ParentHeaderCell", typeof(HexEditorContentHeaderCell), typeof(HeaderCellSplitter), new PropertyMetadata(null));
 
     protected override void OnMouseEnter(MouseEventArgs e)
     {

@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using HexManager.EventArgs;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace HexManager;
 
@@ -7,12 +9,13 @@ public class HexEditorContent : Control
 {
     static HexEditorContent()
     {
+        
         DefaultStyleKeyProperty.OverrideMetadata(typeof(HexEditorContent), new FrameworkPropertyMetadata(typeof(HexEditorContent)));
     }
 
     public HexEditorContent()
     {
-        
+        SnapsToDevicePixels = true;
     }
 
     public HexEditor ParentHexEditor
@@ -23,14 +26,5 @@ public class HexEditorContent : Control
     public static readonly DependencyProperty ParentHexEditorProperty =
         DependencyProperty.Register("ParentHexEditor", typeof(HexEditor), typeof(HexEditorContent), new PropertyMetadata(null));
 
-    public double HexEditorContentColumnsWidth
-    {
-        get { return (double)GetValue(HexEditorContentColumnsWidthProperty); }
-        set { SetValue(HexEditorContentColumnsWidthProperty, value); }
-    }
-    public static readonly DependencyProperty HexEditorContentColumnsWidthProperty =
-        DependencyProperty.Register("HexEditorContentColumnsWidth", typeof(double), typeof(HexEditorContent), new PropertyMetadata(30.0));
-
-
-
+    
 }

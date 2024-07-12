@@ -1,29 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HexManager.EventArgs;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace HexManager;
 
-public class HeaderColumns : Panel, IAddChild
+public class HexEditorContentHeaderColumns : Panel, IAddChild
 {
-    static HeaderColumns()
+    static HexEditorContentHeaderColumns()
     {
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(HeaderColumns), new FrameworkPropertyMetadata(typeof(HeaderColumns)));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(HexEditorContentHeaderColumns), new FrameworkPropertyMetadata(typeof(HexEditorContentHeaderColumns)));
     }
 
-    public HeaderColumns()
+    public HexEditorContentHeaderColumns()
     {
         _ParentHexEditor = new();
+        SnapsToDevicePixels = true;
     }
 
-    public HeaderColumns(HexEditorContent hexEditorContent) : this()
+    public HexEditorContentHeaderColumns(HexEditorContent hexEditorContent) : this()
     {
         ParentHexEditorContent = hexEditorContent;
 
@@ -47,9 +45,9 @@ public class HeaderColumns : Panel, IAddChild
     private void Initial()
     {
         if (_ParentHexEditor == null) return;
-        for (int i = 0; i < _ParentHexEditor.NumberOfDataColumns; i++)
+        for (int itemColumn = 0; itemColumn < _ParentHexEditor.NumberOfDataColumns; itemColumn++)
         {
-            HeaderCell cell = new HeaderCell(this, $"{i:X2}");
+            HexEditorContentHeaderCell cell = new HexEditorContentHeaderCell(this, $"{itemColumn:X2}", itemColumn);
             AddChild(cell);
         }
     }
@@ -59,7 +57,9 @@ public class HeaderColumns : Panel, IAddChild
         if (_ParentHexEditor == null) return;
         Rect bounds = new Rect(0, 0, ActualWidth, _ParentHexEditor.HexEditorContentHeaderColumnsHeight);
         Brush brush = _ParentHexEditor.HexEditorContentHeaderColumnsBackground;
+        Pen pen = new Pen(Brushes.Gray, 2);
         dc.DrawRoundedRectangle(brush, null, bounds, 0, 0);
+        dc.DrawLine(pen, new Point(0, bounds.Height - 1), new Point(ActualWidth, bounds.Height - 1));
     }
 
     protected override Size MeasureOverride(Size constraint)
@@ -98,6 +98,13 @@ public class HeaderColumns : Panel, IAddChild
             previousChildSize = child.DesiredSize.Width;
             rcChild.Width = previousChildSize;
             rcChild.Height = Math.Max(finalSize.Height, child.DesiredSize.Height);
+            HexEditorContenColumnData hexEditorContenColumnData = new();
+            hexEditorContenColumnData.ColumnIndex = i;
+            hexEditorContenColumnData.ColumnWidth = rcChild.Width;
+            hexEditorContenColumnData.ColumnHeight = rcChild.Height;
+            hexEditorContenColumnData.StartPoint = new Point(rcChild.X, rcChild.Y);
+            hexEditorContenColumnData.EndPoint = new Point(rcChild.Right, rcChild.Bottom);
+            RaiseEvent(new HexEditorContentHeaderCellSizeChangedEventArgs(hexEditorContenColumnData));
             child.Arrange(rcChild);
         }
         return finalSize;
@@ -109,12 +116,12 @@ public class HeaderColumns : Panel, IAddChild
         set { SetValue(ParentHexEditorContentProperty, value); }
     }
     public static readonly DependencyProperty ParentHexEditorContentProperty =
-        DependencyProperty.Register("ParentHexEditorContent", typeof(HexEditorContent), typeof(HeaderColumns), new FrameworkPropertyMetadata(null, OnParenHexEditorContentChanged));
+        DependencyProperty.Register("ParentHexEditorContent", typeof(HexEditorContent), typeof(HexEditorContentHeaderColumns), new FrameworkPropertyMetadata(null, OnParenHexEditorContentChanged));
     private static void OnParenHexEditorContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d != null && d is HeaderColumns)
+        if (d != null && d is HexEditorContentHeaderColumns)
         {
-            HeaderColumns headerColumns = (HeaderColumns)d;
+            HexEditorContentHeaderColumns headerColumns = (HexEditorContentHeaderColumns)d;
             headerColumns._ParentHexEditor = ((HexEditorContent)e.NewValue).ParentHexEditor;
             headerColumns.Initial();
         }
