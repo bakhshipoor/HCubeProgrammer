@@ -1,13 +1,6 @@
-﻿using Microsoft.Windows.Themes;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace HexManager;
@@ -17,55 +10,45 @@ public class HeaderCell : Decorator
 
     static HeaderCell()
     {
-        IsEnabledProperty.OverrideMetadata(typeof(HeaderCell), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.AffectsRender));
-    }
-
-    public HeaderCell() 
-    {
-        Width = 30;
-        Height = 30;
-        Child = new HeaderCellSeperator();
-        ((HeaderCellSeperator)Child).ParentCell = this;
-        //HorizontalAlignment = HorizontalAlignment.Center;
-        //VerticalAlignment = VerticalAlignment.Center;
-    }
-
-    public override void OnApplyTemplate()
-    {
-        base.OnApplyTemplate();
         
-        ((HeaderCellSeperator)Child).HorizontalAlignment = HorizontalAlignment.Right;
     }
 
-    
+    public HeaderCell(HeaderColumns headerColumns, string text) 
+    {
+        ParentHeaderColumns = headerColumns;
+        _ParentHexEditor = headerColumns._ParentHexEditor;
+        _ParentHexEditorContent = headerColumns.ParentHexEditorContent;
+        Text = text;
+        Width = _ParentHexEditorContent.HexEditorContentColumnsWidth;
+        Height = _ParentHexEditor.HexEditorContentHeaderColumnsHeight;
+
+        HeaderCellSplitter child = new HeaderCellSplitter(this);
+        child.Width = _ParentHexEditor.HexEditorContentHeaderSplitterWidth;
+        child.Height = Height;
+        child.BorderThickness = new Thickness(_ParentHexEditor.HexEditorContentHeaderSplitterWidth);
+        child.BorderBrush = _ParentHexEditor.HexEditorContentHeaderSplitterBackground;
+        Child = child;
+    }
 
     protected override void OnRender(DrawingContext drawingContext)
     {
         Rect bounds = new Rect(0, 0, ActualWidth, ActualHeight);
-        
-        if (DrawBackground(drawingContext, ref bounds))
-        {
-            // Out of space, stop
-            return;
-        }
+        Brush brush = _ParentHexEditor.HexEditorContentHeaderColumnsBackground;
+        drawingContext.DrawRoundedRectangle(brush, null, bounds, 0, 0);
 
-        //DrawShades(drawingContext, ref bounds);
-
-        //drawingContext.DrawRectangle(Brushes.LightGray, null, new Rect(0, 0, RenderSize.Width, RenderSize.Height));
-        
         var typeface = new Typeface("Segoe UI");
         var formattedText = new FormattedText(Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
                 typeface, 12, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
-        double labelX = (ActualWidth - formattedText.Width - 2) / 2;
-        if (labelX < 0) labelX = 0;
-        double labelY = (ActualHeight - formattedText.Height) / 2;
-        if (labelY<0) labelY = 0;
-        Point labelLocation = new Point(labelX, labelY);
-        drawingContext.DrawText(formattedText, labelLocation);
+        if (formattedText.Width < (ActualWidth - _ParentHexEditor.HexEditorContentHeaderSplitterWidth))
+        {
+            double labelX = (ActualWidth - formattedText.Width - _ParentHexEditor.HexEditorContentHeaderSplitterWidth) / 2;
+            if (labelX < 0) { labelX = 0; }
+            double labelY = (ActualHeight - formattedText.Height) / 2;
+            if (labelY < 0) { labelY = 0; }
+            Point labelLocation = new Point(labelX, labelY);
+            drawingContext.DrawText(formattedText, labelLocation);
+        }
     }
-
-    private const double sideThickness = 1.0;
-    private const double sideThickness2 = 1 * sideThickness;
 
     protected override Size MeasureOverride(Size availableSize)
     {
@@ -74,117 +57,30 @@ public class HeaderCell : Decorator
         if (child != null)
         {
             Size childConstraint = new Size();
-            bool isWidthTooSmall = (availableSize.Width < sideThickness2);
-            bool isHeightTooSmall = (availableSize.Height < sideThickness2);
-
-            if (!isWidthTooSmall)
-            {
-                childConstraint.Width = availableSize.Width - sideThickness2;
-            }
-            if (!isHeightTooSmall)
-            {
-                childConstraint.Height = availableSize.Height - sideThickness2;
-            }
-
+            childConstraint.Width = availableSize.Width;
+            childConstraint.Height = availableSize.Height;
             child.Measure(childConstraint);
-
             desired = child.DesiredSize;
-
-            if (!isWidthTooSmall)
-            {
-                desired.Width += sideThickness2;
-            }
-            if (!isHeightTooSmall)
-            {
-                desired.Height += sideThickness2;
-            }
         }
-        else
-        {
-            desired = new Size(Math.Min(sideThickness2, availableSize.Width), Math.Min(sideThickness2, availableSize.Height));
-        }
-
-        return desired;
+        return availableSize;
     }
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-
-
-
         Rect childArrangeRect = new Rect();
-
-        childArrangeRect.Width = Math.Max(0d, finalSize.Width - sideThickness2);
-        childArrangeRect.Height = Math.Max(0d, finalSize.Height - sideThickness2);
-        childArrangeRect.X = (finalSize.Width - childArrangeRect.Width) * 0.5;
-        childArrangeRect.Y = (finalSize.Height - childArrangeRect.Height) * 0.5;
-
+        childArrangeRect.Width = _ParentHexEditor.HexEditorContentHeaderSplitterWidth;
+        childArrangeRect.Height = _ParentHexEditor.HexEditorContentHeaderColumnsHeight;
+        childArrangeRect.X = (finalSize.Width - childArrangeRect.Width);
+        childArrangeRect.Y = 0;
         UIElement child = Child;
         if (child != null)
         {
             child.Arrange(childArrangeRect);
         }
-
         return finalSize;
-
     }
 
-    private void DrawShades(DrawingContext dc, ref Rect bounds)
-    {
-        // shades are inset an additional 0.3
-        bounds.Inflate(-0.3, -0.3);
-
-        // draw top shade
-        Brush brush = Brushes.Gray;
-        if (brush != null)
-        {
-            dc.DrawRoundedRectangle(brush, null, new Rect(bounds.Left, bounds.Top, bounds.Width, 1.0), 3.0, 3.0);
-        }
-
-        // draw bottom shade
-        brush = Brushes.Gray;
-        if (brush != null)
-        {
-            dc.DrawRoundedRectangle(brush, null, new Rect(bounds.Left, bounds.Bottom - 1.0, bounds.Width, 1.0), 3.0, 3.0);
-        }
-
-        // draw left shade
-        brush = Brushes.Gray;
-        if (brush != null)
-        {
-            dc.DrawRoundedRectangle(brush, null, new Rect(bounds.Left, bounds.Top, 1.0, bounds.Height), 3.0, 3.0);
-        }
-
-        // draw right shade
-        brush = Brushes.Gray;
-        if (brush != null)
-        {
-            dc.DrawRoundedRectangle(brush, null, new Rect(bounds.Right - 1.0, bounds.Top, 1.0, bounds.Height), 3.0, 3.0);
-        }
-
-        // dones with shades; outset bounds
-        bounds.Inflate(0.3, 0.3);
-    }
-
-    private bool DrawBackground(DrawingContext dc, ref Rect bounds)
-    {
-        // draw actual background
-        Brush brush = Brushes.AliceBlue;
-        if (brush != null)
-        {
-            dc.DrawRoundedRectangle(brush, null, bounds, 3.0, 3.0);
-        }
-
-        if ((bounds.Width < 0.6) || (bounds.Height < 0.6))
-        {
-            // out of space; we're done
-            return true;
-        }
-
-        return false;
-    }
-
-
+    
     public string Text
     {
         get { return (string)GetValue(TextProperty); }
@@ -193,5 +89,23 @@ public class HeaderCell : Decorator
     public static readonly DependencyProperty TextProperty =
         DependencyProperty.Register("Text", typeof(string), typeof(HeaderCell), new PropertyMetadata(string.Empty));
 
+    public HeaderColumns ParentHeaderColumns
+    {
+        get { return (HeaderColumns)GetValue(ParentHeaderColumnsProperty); }
+        set { SetValue(ParentHeaderColumnsProperty, value); }
+    }
+    public static readonly DependencyProperty ParentHeaderColumnsProperty =
+        DependencyProperty.Register("ParentHeaderColumns", typeof(HeaderColumns), typeof(HeaderCell), new FrameworkPropertyMetadata(null, OnParentHeaderColumnsChanged));
+    private static void OnParentHeaderColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d!=null && d is HeaderCell)
+        {
+            HeaderCell headerCell = (HeaderCell)d;
+            headerCell._ParentHexEditor = ((HeaderColumns)e.NewValue)._ParentHexEditor;
+            headerCell._ParentHexEditorContent = ((HeaderColumns)e.NewValue).ParentHexEditorContent;
+        }
+    }
 
+    internal HexEditor _ParentHexEditor;
+    internal HexEditorContent _ParentHexEditorContent;
 }

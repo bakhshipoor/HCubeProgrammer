@@ -28,25 +28,8 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" Text="Hex Values" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <StackPanel Grid.Row="1" Orientation="Horizontal">
-                                <local:HeaderCell Text="00"/>
-                                <local:HeaderCell Text="01"/>
-                                <local:HeaderCell Text="02"/>
-                                <local:HeaderCell Text="03"/>
-                                <local:HeaderCell Text="04"/>
-                                <local:HeaderCell Text="05"/>
-                                <local:HeaderCell Text="06"/>
-                                <local:HeaderCell Text="07"/>
-                                <local:HeaderCell Text="08"/>
-                                <local:HeaderCell Text="09"/>
-                                <local:HeaderCell Text="0A"/>
-                                <local:HeaderCell Text="0B"/>
-                                <local:HeaderCell Text="0C"/>
-                                <local:HeaderCell Text="0D"/>
-                                <local:HeaderCell Text="0E"/>
-                                <local:HeaderCell Text="0F"/>
-                            </StackPanel>
-                            <StackPanel Grid.Row="2" Orientation="Vertical"/>
+                            <local:HeaderColumns  Grid.Row="1" ParentHexEditorContent="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditorContent}}"/>
+                            <!--<StackPanel Grid.Row="2" Orientation="Vertical"/>-->
                         </Grid>
 
                     </Border>

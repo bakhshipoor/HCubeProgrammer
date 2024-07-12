@@ -87,7 +87,7 @@
                                 </ScrollViewer.Template>
                                 <Grid>
                                     <StackPanel Orientation="Horizontal">
-                                        <local:HexEditorContent/>
+                                        <local:HexEditorContent ParentHexEditor="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditor}}"/>
                                     </StackPanel>
                                 </Grid>
                             </ScrollViewer>
