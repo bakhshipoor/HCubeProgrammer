@@ -26,10 +26,10 @@ public class HexEditorContentDataCell : FrameworkElement
 
     protected override void OnRender(DrawingContext drawingContext)
     {
-        base.OnRender(drawingContext);
-        Rect bounds = new Rect(0, 0, ActualWidth, ActualHeight);
-        Brush brush = Brushes.Red;
-        drawingContext.DrawRoundedRectangle(brush, null, bounds, 0, 0);
+        
+        //Rect bounds = new Rect(0, 0, ActualWidth, ActualHeight);
+        //Brush brush = Brushes.Red;
+        //drawingContext.DrawRoundedRectangle(brush, null, bounds, 0, 0);
 
         var typeface = new Typeface("Segoe UI");
         var formattedText = new FormattedText(CellData, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
@@ -43,6 +43,7 @@ public class HexEditorContentDataCell : FrameworkElement
             Point labelLocation = new Point(labelX, labelY);
             drawingContext.DrawText(formattedText, labelLocation);
         }
+        base.OnRender(drawingContext);
     }
 
 

@@ -24,7 +24,26 @@ public class HexEditorContent : Control
         set { SetValue(ParentHexEditorProperty, value); }
     }
     public static readonly DependencyProperty ParentHexEditorProperty =
-        DependencyProperty.Register("ParentHexEditor", typeof(HexEditor), typeof(HexEditorContent), new PropertyMetadata(null));
+        DependencyProperty.Register("ParentHexEditor", typeof(HexEditor), typeof(HexEditorContent), new FrameworkPropertyMetadata(null, OnParentHexEditorChanged));
 
-    
+    private static void OnParentHexEditorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d != null && d is HexEditorContent)
+        {
+            HexEditorContent hexEditorContent = (HexEditorContent)d;
+            hexEditorContent.ParentHexEditor.HexEditorContents.Add(hexEditorContent);
+        }
+    }
+
+
+
+    public HexEditorContentData ContentData
+    {
+        get { return (HexEditorContentData)GetValue(ContentDataProperty); }
+        set { SetValue(ContentDataProperty, value); }
+    }
+    public static readonly DependencyProperty ContentDataProperty =
+        DependencyProperty.Register("ContentData", typeof(HexEditorContentData), typeof(HexEditorContent), new PropertyMetadata(null));
+
+
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,6 +29,7 @@ public class HexEditor : Control
     public HexEditor()
     {
         ScvHexEditor = new();
+        
     }
 
     public override void OnApplyTemplate()
@@ -110,7 +112,33 @@ public class HexEditor : Control
         set { SetValue(NumberOfDataRowsProperty, value); }
     }
     public static readonly DependencyProperty NumberOfDataRowsProperty =
-        DependencyProperty.Register("NumberOfDataRows", typeof(int), typeof(HexEditor), new FrameworkPropertyMetadata(0));
+        DependencyProperty.Register("NumberOfDataRows", typeof(int), typeof(HexEditor), new FrameworkPropertyMetadata(0,OnDataRowsChanged));
+
+    private static void OnDataRowsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d != null && d is HexEditor)
+        {
+            HexEditor hexEditor = (HexEditor)d;
+            hexEditor.CellsData = new HexEditorContenCellData[(int)e.NewValue, hexEditor.NumberOfDataColumns];
+            hexEditor.DataCell = new HexEditorContentDataCell[(int)e.NewValue, hexEditor.NumberOfDataColumns];
+            foreach (HexEditorContent itemHexContent in hexEditor.HexEditorContents)
+            {
+                itemHexContent.ContentData.Children.Clear();
+            }
+            for (int itemRow=0; itemRow < (int)e.NewValue; itemRow++)
+            {
+                for (int itemColumn=0;itemColumn< hexEditor.NumberOfDataColumns;itemColumn++)
+                {
+                    hexEditor.CellsData[itemRow, itemColumn] = new HexEditorContenCellData();
+                    hexEditor.DataCell[itemRow, itemColumn] = new HexEditorContentDataCell();
+                    foreach (HexEditorContent itemHexContent in hexEditor.HexEditorContents)
+                    {
+                        itemHexContent.ContentData.Children.Add(hexEditor.DataCell[itemRow, itemColumn]);
+                    }
+                }
+            }
+        }
+    }
 
     public double HexEditorContentColumnsMinWidth
     {
@@ -132,6 +160,7 @@ public class HexEditor : Control
         }
     }
 
-
-
+    public HexEditorContenCellData[,] CellsData = new HexEditorContenCellData[1, 16];
+    public HexEditorContentDataCell[,] DataCell = new HexEditorContentDataCell[1, 16];
+    public List<HexEditorContent> HexEditorContents = [];
 }
