@@ -3,6 +3,7 @@
                     xmlns:local="clr-namespace:HexManager">
 
     <Style x:Key="{x:Type local:HexScrollViewer}" TargetType="{x:Type local:HexScrollViewer}">
+        <Setter Property="Stylus.IsFlicksEnabled" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:HexScrollViewer}">

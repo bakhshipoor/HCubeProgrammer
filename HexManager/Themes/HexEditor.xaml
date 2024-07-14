@@ -14,7 +14,7 @@
         <Setter Property="ScrollViewer.PanningMode"
                 Value="Both"/>
         <Setter Property="Stylus.IsFlicksEnabled"
-                Value="False"/>
+                Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:HexEditor}">
@@ -40,6 +40,7 @@
                                 <Grid>
                                     <StackPanel Orientation="Horizontal">
                                         <local:HexEditorContent ParentHexEditor="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditor}}"/>
+                                        <!--<local:HexEditorContent ParentHexEditor="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditor}}"/>-->
                                     </StackPanel>
                                 </Grid>
                             </local:HexScrollViewer>

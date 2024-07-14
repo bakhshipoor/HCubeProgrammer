@@ -24,14 +24,14 @@ public class HexEditorContentHeaderCell : Decorator
         Text = text;
         ColumnIndex = columnIndex;
         MinWidth = _ParentHexEditor.HexEditorContentColumnsMinWidth;
-        Width = MinWidth;
+        //Width = MinWidth;
         Height = _ParentHexEditor.HexEditorContentHeaderColumnsHeight;
 
         HeaderCellSplitter child = new HeaderCellSplitter(this);
         child.Width = _ParentHexEditor.HexEditorContentHeaderSplitterWidth;
         child.Height = Height;
-        child.BorderThickness = new Thickness(_ParentHexEditor.HexEditorContentHeaderSplitterWidth);
-        child.BorderBrush = _ParentHexEditor.HexEditorContentHeaderSplitterBackground;
+        child.RectWidth = _ParentHexEditor.HexEditorContentHeaderSplitterRectWidth;
+        child.Background = _ParentHexEditor.HexEditorContentHeaderSplitterBackground;
         Child = child;
         SnapsToDevicePixels = true;
     }
@@ -67,6 +67,11 @@ public class HexEditorContentHeaderCell : Decorator
             childConstraint.Height = availableSize.Height;
             child.Measure(childConstraint);
             desired = child.DesiredSize;
+        }
+        if (availableSize.Width == double.PositiveInfinity)
+        {
+            availableSize.Width = MinWidth + desired.Width;
+            Width = availableSize.Width;
         }
         return availableSize;
     }

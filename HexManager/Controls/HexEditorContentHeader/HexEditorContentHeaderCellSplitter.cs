@@ -12,21 +12,21 @@ public class HeaderCellSplitter : Thumb
         EventManager.RegisterClassHandler(typeof(HeaderCellSplitter), DragStartedEvent, new DragStartedEventHandler(OnDragStarted));
         EventManager.RegisterClassHandler(typeof(HeaderCellSplitter), DragDeltaEvent, new DragDeltaEventHandler(OnDragDelta));
         EventManager.RegisterClassHandler(typeof(HeaderCellSplitter), DragCompletedEvent, new DragCompletedEventHandler(OnDragCompleted));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(HeaderCellSplitter), new FrameworkPropertyMetadata(typeof(HeaderCellSplitter)));
     }
 
     public HeaderCellSplitter(HexEditorContentHeaderCell headerCell) 
     {
         ParentHeaderCell = headerCell;
         SnapsToDevicePixels = true;
-        Initial();
     }
 
-    private void Initial()
+    protected override void OnRender(DrawingContext drawingContext)
     {
-        //Width = 2;
-        //Height = 30;
-        //BorderThickness = new Thickness(2);
-        //BorderBrush = Brushes.Gray;
+        base.OnRender(drawingContext);
+        Rect bounds = new Rect(1.0, 0, RectWidth, ActualHeight);
+        Brush brush = Background;
+        drawingContext.DrawRoundedRectangle(brush, null, bounds, 0, 0);
     }
 
     public HexEditorContentHeaderCell ParentHeaderCell
@@ -36,6 +36,14 @@ public class HeaderCellSplitter : Thumb
     }
     public static readonly DependencyProperty ParentHeaderCellProperty =
         DependencyProperty.Register("ParentHeaderCell", typeof(HexEditorContentHeaderCell), typeof(HeaderCellSplitter), new PropertyMetadata(null));
+
+    public double RectWidth
+    {
+        get { return (double)GetValue(RectWidthProperty); }
+        set { SetValue(RectWidthProperty, value); }
+    }
+    public static readonly DependencyProperty RectWidthProperty =
+        DependencyProperty.Register("RectWidth", typeof(double), typeof(HeaderCellSplitter), new FrameworkPropertyMetadata(2.0, FrameworkPropertyMetadataOptions.AffectsRender));
 
     protected override void OnMouseEnter(MouseEventArgs e)
     {

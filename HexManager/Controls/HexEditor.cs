@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace HexManager;
@@ -38,11 +39,7 @@ public class HexEditor : Control
         ScvHexEditor = (ScrollViewer)GetTemplateChild(ElementScrollViewerScvHexEditor);
     }
 
-    protected override void OnRender(DrawingContext drawingContext)
-    {
-        base.OnRender(drawingContext);
-    }
-
+    
     internal double _DefaultHeaderTypeHeight = 30.0;
     internal double _DefaultHeaderColumnsHeight = 30.0;
     internal double _DefaultDataRowHeight = 30.0;
@@ -88,7 +85,15 @@ public class HexEditor : Control
         set { SetValue(HexEditorContentHeaderSplitterWidthProperty, value); }
     }
     public static readonly DependencyProperty HexEditorContentHeaderSplitterWidthProperty =
-        DependencyProperty.Register("HexEditorContentHeaderSplitterWidth", typeof(double), typeof(HexEditor), new FrameworkPropertyMetadata(2.0));
+        DependencyProperty.Register("HexEditorContentHeaderSplitterWidth", typeof(double), typeof(HexEditor), new FrameworkPropertyMetadata(4.0));
+
+    public double HexEditorContentHeaderSplitterRectWidth
+    {
+        get { return (double)GetValue(HexEditorContentHeaderSplitterBorderThicknessProperty); }
+        set { SetValue(HexEditorContentHeaderSplitterBorderThicknessProperty, value); }
+    }
+    public static readonly DependencyProperty HexEditorContentHeaderSplitterBorderThicknessProperty =
+        DependencyProperty.Register("HexEditorContentHeaderSplitterBorderThickness", typeof(double), typeof(HexEditor), new PropertyMetadata(2.0));
 
     public Brush HexEditorContentHeaderSplitterBackground
     {
@@ -119,8 +124,7 @@ public class HexEditor : Control
         if (d != null && d is HexEditor)
         {
             HexEditor hexEditor = (HexEditor)d;
-            hexEditor.CellsData = new HexEditorContenCellData[(int)e.NewValue, hexEditor.NumberOfDataColumns];
-            hexEditor.DataCell = new HexEditorContentDataCell[(int)e.NewValue, hexEditor.NumberOfDataColumns];
+            hexEditor.DataCells = new HexEditorContentDataCell[(int)e.NewValue, hexEditor.NumberOfDataColumns];
             foreach (HexEditorContent itemHexContent in hexEditor.HexEditorContents)
             {
                 itemHexContent.ContentData.Children.Clear();
@@ -129,11 +133,10 @@ public class HexEditor : Control
             {
                 for (int itemColumn=0;itemColumn< hexEditor.NumberOfDataColumns;itemColumn++)
                 {
-                    hexEditor.CellsData[itemRow, itemColumn] = new HexEditorContenCellData();
-                    hexEditor.DataCell[itemRow, itemColumn] = new HexEditorContentDataCell();
+                    hexEditor.DataCells[itemRow, itemColumn] = new HexEditorContentDataCell();
                     foreach (HexEditorContent itemHexContent in hexEditor.HexEditorContents)
                     {
-                        itemHexContent.ContentData.Children.Add(hexEditor.DataCell[itemRow, itemColumn]);
+                        itemHexContent.ContentData.Children.Add(new HexEditorContentDataCell(hexEditor.DataCells[itemRow, itemColumn]));
                     }
                 }
             }
@@ -160,7 +163,18 @@ public class HexEditor : Control
         }
     }
 
-    public HexEditorContenCellData[,] CellsData = new HexEditorContenCellData[1, 16];
     public HexEditorContentDataCell[,] DataCell = new HexEditorContentDataCell[1, 16];
     public List<HexEditorContent> HexEditorContents = [];
+
+
+
+    public HexEditorContentDataCell[,] DataCells
+    {
+        get { return (HexEditorContentDataCell[,])GetValue(DataCellsProperty); }
+        set { SetValue(DataCellsProperty, value); }
+    }
+    public static readonly DependencyProperty DataCellsProperty =
+        DependencyProperty.Register("DataCells", typeof(HexEditorContentDataCell[,]), typeof(HexEditor), new FrameworkPropertyMetadata(new HexEditorContentDataCell[1, 16], FrameworkPropertyMetadataOptions.AffectsArrange));
+
+
 }
