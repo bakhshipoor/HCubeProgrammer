@@ -147,5 +147,4 @@ public class HexEditorContentData : Panel
             previousRowTop += rowHeight;
         }
     }
-
 }
