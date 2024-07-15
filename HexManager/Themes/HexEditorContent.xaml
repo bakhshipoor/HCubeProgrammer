@@ -9,7 +9,7 @@
                 Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="BorderBrush" Value="#FF688CAF" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="2 0 0 0"/>
+        <Setter Property="Padding" Value="1 0 0 0"/>
         <Setter Property="Stylus.IsFlicksEnabled"
                 Value="False"/>
         <Setter Property="Template">
@@ -24,13 +24,19 @@
 
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
+                                <!--<RowDefinition Height="30"/>-->
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="Hex Values" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                            <local:HexEditorContentHeaderColumns Grid.Row="1" ParentHexEditorContent="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditorContent}}"/>
-                            <local:HexEditorContentData Grid.Row="2" ParentHexEditorContent="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditorContent}}"/>
+                            <!--<Border Grid.Row="0" BorderThickness="0 0 2 2" BorderBrush="Gray" Margin="-2 0 1 0">
+                                <TextBlock Text="Hex Values" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>-->
+                            <local:HexEditorContentHeaderColumns 
+                                Grid.Row="0" 
+                                ParentHexEditorContent="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditorContent}}" />
+                            <local:HexEditorContentData 
+                                Grid.Row="1" 
+                                ParentHexEditorContent="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditorContent}}"/>
                         </Grid>
 
                     </Border>

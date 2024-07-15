@@ -8,26 +8,26 @@ using System.Windows.Media;
 
 namespace HexManager;
 
-public class HexEditorContentHeaderCell : Decorator
+public class HexEditorContentHeaderColumn : Decorator
 {
 
-    static HexEditorContentHeaderCell()
+    static HexEditorContentHeaderColumn()
     {
         
     }
 
-    public HexEditorContentHeaderCell(HexEditorContentHeaderColumns headerColumns, string text, int columnIndex) 
+    public HexEditorContentHeaderColumn(HexEditorContentHeaderColumns headerColumns, string text, int columnIndex) 
     {
         ParentHeaderColumns = headerColumns;
         _ParentHexEditor = headerColumns._ParentHexEditor;
         _ParentHexEditorContent = headerColumns.ParentHexEditorContent;
         Text = text;
         ColumnIndex = columnIndex;
-        MinWidth = _ParentHexEditor.HexEditorContentColumnsMinWidth;
+        //MinWidth = _ParentHexEditor.HexEditorContentColumnsMinWidth;
         //Width = MinWidth;
-        Height = _ParentHexEditor.HexEditorContentHeaderColumnsHeight;
+        //Height = _ParentHexEditor.HexEditorContentHeaderColumnsHeight;
 
-        HeaderCellSplitter child = new HeaderCellSplitter(this);
+        HexEditorContentHeaderColumnSplitter child = new HexEditorContentHeaderColumnSplitter(this);
         child.Width = _ParentHexEditor.HexEditorContentHeaderSplitterWidth;
         child.Height = Height;
         child.RectWidth = _ParentHexEditor.HexEditorContentHeaderSplitterRectWidth;
@@ -97,7 +97,7 @@ public class HexEditorContentHeaderCell : Decorator
         set { SetValue(TextProperty, value); }
     }
     public static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register("Text", typeof(string), typeof(HexEditorContentHeaderCell), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register("Text", typeof(string), typeof(HexEditorContentHeaderColumn), new PropertyMetadata(string.Empty));
 
     public int ColumnIndex
     {
@@ -105,7 +105,7 @@ public class HexEditorContentHeaderCell : Decorator
         set { SetValue(ColumnIndexProperty, value); }
     }
     public static readonly DependencyProperty ColumnIndexProperty =
-        DependencyProperty.Register("ColumnIndex", typeof(int), typeof(HexEditorContentHeaderCell), new PropertyMetadata(0));
+        DependencyProperty.Register("ColumnIndex", typeof(int), typeof(HexEditorContentHeaderColumn), new PropertyMetadata(0));
 
     public HexEditorContentHeaderColumns ParentHeaderColumns
     {
@@ -113,24 +113,44 @@ public class HexEditorContentHeaderCell : Decorator
         set { SetValue(ParentHeaderColumnsProperty, value); }
     }
     public static readonly DependencyProperty ParentHeaderColumnsProperty =
-        DependencyProperty.Register("ParentHeaderColumns", typeof(HexEditorContentHeaderColumns), typeof(HexEditorContentHeaderCell), new FrameworkPropertyMetadata(null, OnParentHeaderColumnsChanged));
+        DependencyProperty.Register("ParentHeaderColumns", typeof(HexEditorContentHeaderColumns), typeof(HexEditorContentHeaderColumn), new FrameworkPropertyMetadata(null, OnParentHeaderColumnsChanged));
     private static void OnParentHeaderColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d!=null && d is HexEditorContentHeaderCell)
+        if (d!=null && d is HexEditorContentHeaderColumn)
         {
-            HexEditorContentHeaderCell headerCell = (HexEditorContentHeaderCell)d;
+            HexEditorContentHeaderColumn headerCell = (HexEditorContentHeaderColumn)d;
             headerCell._ParentHexEditor = ((HexEditorContentHeaderColumns)e.NewValue)._ParentHexEditor;
             headerCell._ParentHexEditorContent = ((HexEditorContentHeaderColumns)e.NewValue).ParentHexEditorContent;
         }
     }
 
-    public static readonly RoutedEvent HeaderCellSizeChangedEvent = EventManager.RegisterRoutedEvent("HeaderCellSizeChanged", RoutingStrategy.Bubble, typeof(HeaderCellSizeEventHandler), typeof(HexEditorContentHeaderCell));
+    public static readonly RoutedEvent HeaderCellSizeChangedEvent = EventManager.RegisterRoutedEvent("HeaderCellSizeChanged", RoutingStrategy.Bubble, typeof(HeaderCellSizeEventHandler), typeof(HexEditorContentHeaderColumn));
     [Category("Behavior")]
     public event HeaderCellSizeEventHandler HeaderCellSizeChanged 
     { 
         add { AddHandler(HeaderCellSizeChangedEvent, value); } 
         remove { RemoveHandler(HeaderCellSizeChangedEvent, value); } 
     }
+
+    public Point StartPoint
+    {
+        get { return (Point)GetValue(StartPointProperty); }
+        set { SetValue(StartPointProperty, value); }
+    }
+    public static readonly DependencyProperty StartPointProperty =
+        DependencyProperty.Register("StartPoint", typeof(Point), typeof(HexEditorContentHeaderColumn), new PropertyMetadata(new Point(0,0)));
+
+
+    public Point EndPoint
+    {
+        get { return (Point)GetValue(EndPointProperty); }
+        set { SetValue(EndPointProperty, value); }
+    }
+    public static readonly DependencyProperty EndPointProperty =
+        DependencyProperty.Register("EndPoint", typeof(Point), typeof(HexEditorContentHeaderColumn), new PropertyMetadata(new Point(0,0)));
+
+
+
 
     internal HexEditor _ParentHexEditor;
     internal HexEditorContent _ParentHexEditorContent;

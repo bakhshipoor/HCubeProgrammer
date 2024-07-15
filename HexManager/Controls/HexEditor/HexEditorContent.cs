@@ -9,13 +9,13 @@ public class HexEditorContent : Control
 {
     static HexEditorContent()
     {
-        
         DefaultStyleKeyProperty.OverrideMetadata(typeof(HexEditorContent), new FrameworkPropertyMetadata(typeof(HexEditorContent)));
     }
 
     public HexEditorContent()
     {
         SnapsToDevicePixels = true;
+        HeaderColumns = [];
     }
 
     public HexEditor ParentHexEditor
@@ -25,7 +25,6 @@ public class HexEditorContent : Control
     }
     public static readonly DependencyProperty ParentHexEditorProperty =
         DependencyProperty.Register("ParentHexEditor", typeof(HexEditor), typeof(HexEditorContent), new FrameworkPropertyMetadata(null, OnParentHexEditorChanged));
-
     private static void OnParentHexEditorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d != null && d is HexEditorContent)
@@ -35,8 +34,6 @@ public class HexEditorContent : Control
         }
     }
 
-
-
     public HexEditorContentData ContentData
     {
         get { return (HexEditorContentData)GetValue(ContentDataProperty); }
@@ -45,5 +42,5 @@ public class HexEditorContent : Control
     public static readonly DependencyProperty ContentDataProperty =
         DependencyProperty.Register("ContentData", typeof(HexEditorContentData), typeof(HexEditorContent), new PropertyMetadata(null));
 
-
+    public List<HexEditorContentHeaderColumn> HeaderColumns;
 }

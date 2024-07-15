@@ -40,7 +40,7 @@
                                 <Grid>
                                     <StackPanel Orientation="Horizontal">
                                         <local:HexEditorContent ParentHexEditor="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditor}}"/>
-                                        <!--<local:HexEditorContent ParentHexEditor="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditor}}"/>-->
+                                        <local:HexEditorContent ParentHexEditor="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditor}}"/>
                                     </StackPanel>
                                 </Grid>
                             </local:HexScrollViewer>

@@ -5,17 +5,17 @@ using System.Windows.Media;
 
 namespace HexManager;
 
-public class HeaderCellSplitter : Thumb
+public class HexEditorContentHeaderColumnSplitter : Thumb
 {
-    static HeaderCellSplitter()
+    static HexEditorContentHeaderColumnSplitter()
     {
-        EventManager.RegisterClassHandler(typeof(HeaderCellSplitter), DragStartedEvent, new DragStartedEventHandler(OnDragStarted));
-        EventManager.RegisterClassHandler(typeof(HeaderCellSplitter), DragDeltaEvent, new DragDeltaEventHandler(OnDragDelta));
-        EventManager.RegisterClassHandler(typeof(HeaderCellSplitter), DragCompletedEvent, new DragCompletedEventHandler(OnDragCompleted));
-        DefaultStyleKeyProperty.OverrideMetadata(typeof(HeaderCellSplitter), new FrameworkPropertyMetadata(typeof(HeaderCellSplitter)));
+        EventManager.RegisterClassHandler(typeof(HexEditorContentHeaderColumnSplitter), DragStartedEvent, new DragStartedEventHandler(OnDragStarted));
+        EventManager.RegisterClassHandler(typeof(HexEditorContentHeaderColumnSplitter), DragDeltaEvent, new DragDeltaEventHandler(OnDragDelta));
+        EventManager.RegisterClassHandler(typeof(HexEditorContentHeaderColumnSplitter), DragCompletedEvent, new DragCompletedEventHandler(OnDragCompleted));
+        DefaultStyleKeyProperty.OverrideMetadata(typeof(HexEditorContentHeaderColumnSplitter), new FrameworkPropertyMetadata(typeof(HexEditorContentHeaderColumnSplitter)));
     }
 
-    public HeaderCellSplitter(HexEditorContentHeaderCell headerCell) 
+    public HexEditorContentHeaderColumnSplitter(HexEditorContentHeaderColumn headerCell) 
     {
         ParentHeaderCell = headerCell;
         SnapsToDevicePixels = true;
@@ -29,13 +29,13 @@ public class HeaderCellSplitter : Thumb
         drawingContext.DrawRoundedRectangle(brush, null, bounds, 0, 0);
     }
 
-    public HexEditorContentHeaderCell ParentHeaderCell
+    public HexEditorContentHeaderColumn ParentHeaderCell
     {
-        get { return (HexEditorContentHeaderCell)GetValue(ParentHeaderCellProperty); }
+        get { return (HexEditorContentHeaderColumn)GetValue(ParentHeaderCellProperty); }
         set { SetValue(ParentHeaderCellProperty, value); }
     }
     public static readonly DependencyProperty ParentHeaderCellProperty =
-        DependencyProperty.Register("ParentHeaderCell", typeof(HexEditorContentHeaderCell), typeof(HeaderCellSplitter), new PropertyMetadata(null));
+        DependencyProperty.Register("ParentHeaderCell", typeof(HexEditorContentHeaderColumn), typeof(HexEditorContentHeaderColumnSplitter), new PropertyMetadata(null));
 
     public double RectWidth
     {
@@ -43,7 +43,7 @@ public class HeaderCellSplitter : Thumb
         set { SetValue(RectWidthProperty, value); }
     }
     public static readonly DependencyProperty RectWidthProperty =
-        DependencyProperty.Register("RectWidth", typeof(double), typeof(HeaderCellSplitter), new FrameworkPropertyMetadata(2.0, FrameworkPropertyMetadataOptions.AffectsRender));
+        DependencyProperty.Register("RectWidth", typeof(double), typeof(HexEditorContentHeaderColumnSplitter), new FrameworkPropertyMetadata(2.0, FrameworkPropertyMetadataOptions.AffectsRender));
 
     protected override void OnMouseEnter(MouseEventArgs e)
     {
@@ -64,9 +64,9 @@ public class HeaderCellSplitter : Thumb
   
     private static void OnDragDelta(object sender, DragDeltaEventArgs e)
     {
-        if (sender!=null && sender is HeaderCellSplitter)
+        if (sender!=null && sender is HexEditorContentHeaderColumnSplitter)
         {
-            HeaderCellSplitter hcs = (HeaderCellSplitter)sender;
+            HexEditorContentHeaderColumnSplitter hcs = (HexEditorContentHeaderColumnSplitter)sender;
             if (hcs.ParentHeaderCell != null)
             {
                 double delta = hcs.ParentHeaderCell.Width + e.HorizontalChange;
@@ -79,10 +79,10 @@ public class HeaderCellSplitter : Thumb
                 }
                 else
                 {
-                    if (hcs.ParentHeaderCell.MinWidth >= 0 && delta >= (hcs.ParentHeaderCell.MinWidth + 2))
+                    if (hcs.ParentHeaderCell.MinWidth >= 0 && delta >= (hcs.ParentHeaderCell.MinWidth ))
                         hcs.ParentHeaderCell.Width += e.HorizontalChange;
                     else
-                        hcs.ParentHeaderCell.Width = 3;
+                        hcs.ParentHeaderCell.Width = hcs.ParentHeaderCell.MinWidth;
                 }
                     
             }

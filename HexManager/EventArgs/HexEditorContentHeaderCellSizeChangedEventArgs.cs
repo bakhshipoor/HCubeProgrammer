@@ -13,22 +13,22 @@ public delegate void HeaderCellSizeEventHandler(object sender, HexEditorContentH
 public class HexEditorContentHeaderCellSizeChangedEventArgs : RoutedEventArgs
 {
     
-    public HexEditorContentHeaderCellSizeChangedEventArgs(HexEditorContenColumnData columnData) : base()
-    {
-        _ColumnData = columnData;
-        RoutedEvent = HexEditorContentHeaderCell.HeaderCellSizeChangedEvent;
-    }
+    //public HexEditorContentHeaderCellSizeChangedEventArgs(HexEditorContenColumnData columnData) : base()
+    //{
+    //    _ColumnData = columnData;
+    //    RoutedEvent = HexEditorContentHeaderColumn.HeaderCellSizeChangedEvent;
+    //}
 
-    public HexEditorContenColumnData ColumnData
-    {
-        get { return _ColumnData; }
-    }
+    //public HexEditorContenColumnData ColumnData
+    //{
+    //    get { return _ColumnData; }
+    //}
 
-    protected override void InvokeEventHandler(Delegate genericHandler, object genericTarget)
-    {
-        HeaderCellSizeEventHandler handler = (HeaderCellSizeEventHandler)genericHandler;
-        handler(genericTarget, this);
-    }
+    //protected override void InvokeEventHandler(Delegate genericHandler, object genericTarget)
+    //{
+    //    HeaderCellSizeEventHandler handler = (HeaderCellSizeEventHandler)genericHandler;
+    //    handler(genericTarget, this);
+    //}
 
-    private HexEditorContenColumnData _ColumnData;
+    //private HexEditorContenColumnData _ColumnData;
 }

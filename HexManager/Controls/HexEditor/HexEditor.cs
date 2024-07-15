@@ -23,7 +23,7 @@ public class HexEditor : Control
     
     static HexEditor()
     {
-        EventManager.RegisterClassHandler(typeof(HexEditor), HexEditorContentHeaderCell.HeaderCellSizeChangedEvent, new HeaderCellSizeEventHandler(OnHeaderCellSizeChanged));
+        
         DefaultStyleKeyProperty.OverrideMetadata(typeof(HexEditor), new FrameworkPropertyMetadata(typeof(HexEditor)));
     }
 
@@ -134,6 +134,7 @@ public class HexEditor : Control
                 for (int itemColumn=0;itemColumn< hexEditor.NumberOfDataColumns;itemColumn++)
                 {
                     hexEditor.DataCells[itemRow, itemColumn] = new HexEditorContentDataCell();
+                    if (itemRow == 4 && itemColumn == 4) hexEditor.DataCells[itemRow, itemColumn].CellData = "ABCDEF";
                     foreach (HexEditorContent itemHexContent in hexEditor.HexEditorContents)
                     {
                         itemHexContent.ContentData.Children.Add(new HexEditorContentDataCell(hexEditor.DataCells[itemRow, itemColumn]));
@@ -151,23 +152,11 @@ public class HexEditor : Control
     public static readonly DependencyProperty HexEditorContentColumnsMinWidthProperty =
         DependencyProperty.Register("HexEditorContentColumnsMinWidth", typeof(double), typeof(HexEditor), new PropertyMetadata(30.0));
 
-    public HexEditorContenColumnData[] ColumnsData = new HexEditorContenColumnData[16];
+    
 
-    private static void OnHeaderCellSizeChanged(object sender, HexEditorContentHeaderCellSizeChangedEventArgs e)
-    {
-        if (sender != null && sender is HexEditor)
-        {
-            HexEditor hexEditor = (HexEditor)sender;
-            hexEditor.ColumnsData[e.ColumnData.ColumnIndex] = new();
-            hexEditor.ColumnsData[e.ColumnData.ColumnIndex] = e.ColumnData;
-        }
-    }
-
-    public HexEditorContentDataCell[,] DataCell = new HexEditorContentDataCell[1, 16];
     public List<HexEditorContent> HexEditorContents = [];
 
-
-
+    
     public HexEditorContentDataCell[,] DataCells
     {
         get { return (HexEditorContentDataCell[,])GetValue(DataCellsProperty); }

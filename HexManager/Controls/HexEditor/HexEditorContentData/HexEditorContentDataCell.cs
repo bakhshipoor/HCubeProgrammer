@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
 using System.Windows.Media;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace HexManager;
 
@@ -25,24 +16,22 @@ public class HexEditorContentDataCell : FrameworkElement
     public HexEditorContentDataCell() : base()
     {
         Background = Brushes.Transparent;
+        Margin = new Thickness(1.0, 2.0, 1.0, 2.0);
     }
 
     public HexEditorContentDataCell(HexEditorContentDataCell hecdc) : this()
     {
         CellData=hecdc.CellData;
-        Width=hecdc.Width;
-        Height = hecdc.Height;
     }
 
     protected override void OnRender(DrawingContext drawingContext)
     {
-
         Rect bounds = new Rect(0, 0, ActualWidth, ActualHeight);
         Brush brush = Background;
         drawingContext.DrawRoundedRectangle(brush, null, bounds, 0, 0);
 
-        var typeface = new Typeface("Segoe UI");
-        var formattedText = new FormattedText(CellData, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+        Typeface typeface = new Typeface("Segoe UI");
+        FormattedText formattedText = new FormattedText(CellData, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
                 typeface, 12, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
         if (formattedText.Width < (ActualWidth))
         {
@@ -74,7 +63,7 @@ public class HexEditorContentDataCell : FrameworkElement
         set { SetValue(CellDataProperty, value); }
     }
     public static readonly DependencyProperty CellDataProperty =
-        DependencyProperty.Register("CellData", typeof(string), typeof(HexEditorContentDataCell), new PropertyMetadata("00"));
+        DependencyProperty.Register("CellData", typeof(string), typeof(HexEditorContentDataCell), new PropertyMetadata("FF"));
 
     protected Brush Background
     {
@@ -85,5 +74,13 @@ public class HexEditorContentDataCell : FrameworkElement
             TextElement.BackgroundProperty.AddOwner(typeof(HexEditorContentDataCell),
                 new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.AffectsRender));
 
+    
+    internal double CalculateWidth()
+    {
+        Typeface typeface = new Typeface("Segoe UI");
+        FormattedText formattedText = new FormattedText(CellData, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+                typeface, 12, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
+        return formattedText.Width;
+    }
 
 }

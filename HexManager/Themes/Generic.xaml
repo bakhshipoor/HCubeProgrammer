@@ -3,15 +3,9 @@
                     xmlns:local="clr-namespace:HexManager">
 
     <ResourceDictionary.MergedDictionaries>
-        
-		<ResourceDictionary Source="/HexManager;component/Themes/HexViewer.xaml"/>
-        <ResourceDictionary Source="/HexManager;component/Themes/HexViewerItem.xaml"/>
-		<ResourceDictionary Source="/HexManager;component/Themes/HexByte.xaml"/>
-        <ResourceDictionary Source="/HexManager;component/Themes/Address.xaml"/>
 		<ResourceDictionary Source="/HexManager;component/Themes/HexEditor.xaml"/>
         <ResourceDictionary Source="/HexManager;component/Themes/HexEditorContent.xaml"/>
 		<ResourceDictionary Source="/HexManager;component/Themes/HexScrollViewer.xaml"/>
-        
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

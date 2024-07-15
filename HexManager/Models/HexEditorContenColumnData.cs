@@ -1,17 +1,58 @@
-﻿using System.Windows;
+﻿//using HexManager.Models;
+//using System.Windows;
 
-namespace HexManager;
+//namespace HexManager;
 
-public class HexEditorContenColumnData
-{
-    public HexEditorContenColumnData()
-    {
+//public class HexEditorContenColumnData : ModelBase
+//{
+//    public HexEditorContenColumnData()
+//    {
         
-    }
+//    }
 
-    public int ColumnIndex {  get; set; }
-    public Point StartPoint {  get; set; }
-    public Point EndPoint { get; set; }
-    public double ColumnWidth {  get; set; }
-    public double ColumnHeight { get; set; }
-}
+//    private int _ColumnIndex;
+//    public int ColumnIndex
+//    {
+//        get { return _ColumnIndex; }
+//        set { _ColumnIndex = value; OnPropertyChanged(nameof(ColumnIndex)); }
+//    }
+
+//    private Point _StartPoint;
+//    public Point StartPoint
+//    {
+//        get { return _StartPoint; }
+//        set { _StartPoint = value; OnPropertyChanged(nameof(StartPoint)); }
+//    }
+
+//    private Point _EndPoint;
+//    public Point EndPoint
+//    {
+//        get { return _EndPoint; }
+//        set { _EndPoint = value; OnPropertyChanged(nameof(EndPoint)); }
+//    }
+
+//    private double _ColumnWidth;
+//    public double ColumnWidth
+//    {
+//        get { return _ColumnWidth; }
+//        set { _ColumnWidth = value; OnPropertyChanged(nameof(ColumnWidth)); }
+//    }
+
+//    private double _ColumnMinWidth;
+//    public double ColumnMinWidth
+//    {
+//        get { return _ColumnMinWidth; }
+//        set { _ColumnMinWidth = value; OnPropertyChanged(nameof(ColumnMinWidth)); }
+//    }
+
+//    private double _ColumnHeight;
+//    public double ColumnHeight
+//    {
+//        get { return _ColumnHeight; }
+//        set { _ColumnHeight = value; OnPropertyChanged(nameof(ColumnHeight)); }
+//    }
+
+
+
+
+//}

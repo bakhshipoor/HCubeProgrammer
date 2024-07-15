@@ -45,21 +45,24 @@ public class HexEditorContentHeaderColumns : Panel, IAddChild
     private void Initial()
     {
         if (_ParentHexEditor == null) return;
+        ParentHexEditorContent.HeaderColumns.Clear();
         for (int itemColumn = 0; itemColumn < _ParentHexEditor.NumberOfDataColumns; itemColumn++)
         {
-            HexEditorContentHeaderCell cell = new HexEditorContentHeaderCell(this, $"{itemColumn:X2}", itemColumn);
-            AddChild(cell);
+            HexEditorContentHeaderColumn column = new HexEditorContentHeaderColumn(this, $"{itemColumn:X2}", itemColumn);
+            ParentHexEditorContent.HeaderColumns.Add(column);
+            AddChild(column);
         }
     }
 
     protected override void OnRender(DrawingContext dc)
     {
+        base.OnRender(dc);
         if (_ParentHexEditor == null) return;
         Rect bounds = new Rect(0, 0, ActualWidth, _ParentHexEditor.HexEditorContentHeaderColumnsHeight);
         Brush brush = _ParentHexEditor.HexEditorContentHeaderColumnsBackground;
         Pen pen = new Pen(Brushes.Gray, 2);
         dc.DrawRoundedRectangle(brush, null, bounds, 0, 0);
-        dc.DrawLine(pen, new Point(0, bounds.Height - 1), new Point(ActualWidth, bounds.Height - 1));
+        dc.DrawLine(pen, new Point(0 - 2, bounds.Height - 1), new Point(ActualWidth - 1, bounds.Height - 1));
     }
 
     protected override Size MeasureOverride(Size constraint)
@@ -94,17 +97,15 @@ public class HexEditorContentHeaderColumns : Panel, IAddChild
         {
             UIElement child = children[i];
             if (child == null) { continue; }
+            
             rcChild.X += previousChildSize;
             previousChildSize = child.DesiredSize.Width;
             rcChild.Width = previousChildSize;
             rcChild.Height = Math.Max(finalSize.Height, child.DesiredSize.Height);
-            HexEditorContenColumnData hexEditorContenColumnData = new();
-            hexEditorContenColumnData.ColumnIndex = i;
-            hexEditorContenColumnData.ColumnWidth = rcChild.Width;
-            hexEditorContenColumnData.ColumnHeight = rcChild.Height;
-            hexEditorContenColumnData.StartPoint = new Point(rcChild.X, rcChild.Y);
-            hexEditorContenColumnData.EndPoint = new Point(rcChild.Right, rcChild.Bottom);
-            RaiseEvent(new HexEditorContentHeaderCellSizeChangedEventArgs(hexEditorContenColumnData));
+            ParentHexEditorContent.HeaderColumns[i].Width=rcChild.Width;
+            ParentHexEditorContent.HeaderColumns[i].Height = rcChild.Height;
+            ParentHexEditorContent.HeaderColumns[i].StartPoint = rcChild.TopLeft;
+            ParentHexEditorContent.HeaderColumns[i].EndPoint = rcChild.BottomRight;
             child.Arrange(rcChild);
         }
         return finalSize;
