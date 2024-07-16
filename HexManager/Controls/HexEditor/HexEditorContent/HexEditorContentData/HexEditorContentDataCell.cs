@@ -63,7 +63,7 @@ public class HexEditorContentDataCell : FrameworkElement
         set { SetValue(CellDataProperty, value); }
     }
     public static readonly DependencyProperty CellDataProperty =
-        DependencyProperty.Register("CellData", typeof(string), typeof(HexEditorContentDataCell), new PropertyMetadata("FF"));
+        DependencyProperty.Register("CellData", typeof(string), typeof(HexEditorContentDataCell), new PropertyMetadata("F"));
 
     protected Brush Background
     {

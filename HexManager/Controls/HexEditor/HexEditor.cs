@@ -15,12 +15,15 @@ namespace HexManager;
 
 
 [TemplatePart(Name = ElementScrollViewerScvHexEditor, Type = typeof(ScrollBar))]
+[TemplatePart(Name = ElementStackPanelContents, Type = typeof(StackPanel))]
 public class HexEditor : Control
 {
     private const string ElementScrollViewerScvHexEditor = "PART_ScrollViewer";
-    
+    private const string ElementStackPanelContents = "PART_Contents";
+
     public ScrollViewer ScvHexEditor { get; set; }
-    
+    public StackPanel Contents { get; set; }
+
     static HexEditor()
     {
         
@@ -29,47 +32,134 @@ public class HexEditor : Control
 
     public HexEditor()
     {
+        HexEditorContents = [];
         ScvHexEditor = new();
-        
+        Contents = new();
+
+        Loaded -= HexEditor_Loaded;
+        Loaded += HexEditor_Loaded;
+    }
+
+    private void HexEditor_Loaded(object sender, RoutedEventArgs e)
+    {
+        if (sender != null && sender is HexEditor && _TemplateLoaded)
+        {
+            HexEditorContents.Clear();
+            Contents.Children.Clear();
+            //for (int itemContent = 0; itemContent < NumberOfContents; itemContent++)
+            //{
+            HexEditorContent hexEditorContent = new();
+            hexEditorContent.ParentHexEditor = this;
+            hexEditorContent.TypeHeadearVisibility = true;
+            hexEditorContent.DataHeaderVisibility = false;
+            HexEditorContents.Add(hexEditorContent);
+            Contents.Children.Add(hexEditorContent);
+
+            hexEditorContent = new();
+            hexEditorContent.ParentHexEditor = this;
+            hexEditorContent.TypeHeadearVisibility = true;
+            hexEditorContent.DataHeaderVisibility = false;
+            HexEditorContents.Add(hexEditorContent);
+            Contents.Children.Add(hexEditorContent);
+            //}
+            _IsLoaded = true;
+        }
     }
 
     public override void OnApplyTemplate()
     {
         base.OnApplyTemplate();
+        _TemplateLoaded = false;
         ScvHexEditor = (ScrollViewer)GetTemplateChild(ElementScrollViewerScvHexEditor);
+        Contents = (StackPanel)GetTemplateChild(ElementStackPanelContents);
+        if (ScvHexEditor != null && Contents != null)
+        {
+            _TemplateLoaded = true;
+        }
     }
 
-    
+    private bool _TemplateLoaded;
+    private bool _IsLoaded;
     internal double _DefaultHeaderTypeHeight = 30.0;
     internal double _DefaultHeaderColumnsHeight = 30.0;
     internal double _DefaultDataRowHeight = 30.0;
-    internal int _DeaultDataColumnsCount = 16;
-    internal double _VerticalScrollBarWidth = 17.0;
-    internal double _HorizontalScrollBarHeight = 17.0;
 
-    public double HexEditorContentHeaderTypeHeight
-    {
-        get { return (double)GetValue(HexEditorContentHeaderTypeHeightProperty); }
-        set { SetValue(HexEditorContentHeaderTypeHeightProperty, value); }
-    }
-    public static readonly DependencyProperty HexEditorContentHeaderTypeHeightProperty =
-        DependencyProperty.Register("HexEditorContentHeaderTypeHeight", typeof(double), typeof(HexEditor), new FrameworkPropertyMetadata(30.0));
+    #region Contents
 
-    public double HexEditorContentHeaderColumnsHeight
-    {
-        get { return (double)GetValue(HexEditorContentHeaderColumnsHeightProperty); }
-        set { SetValue(HexEditorContentHeaderColumnsHeightProperty, value); }
-    }
-    public static readonly DependencyProperty HexEditorContentHeaderColumnsHeightProperty =
-        DependencyProperty.Register("HexEditorContentHeaderColumnsHeight", typeof(double), typeof(HexEditor), new FrameworkPropertyMetadata(30.0));
+    public List<HexEditorContent> HexEditorContents { get; set; }
 
-    public Brush HexEditorContentHeaderColumnsBackground
+    public int NumberOfContents
     {
-        get { return (Brush)GetValue(HexEditorContentHeaderColumnsBackgroundProperty); }
-        set { SetValue(HexEditorContentHeaderColumnsBackgroundProperty, value); }
+        get { return (int)GetValue(NumberOfContentsProperty); }
+        set { SetValue(NumberOfContentsProperty, value); }
     }
-    public static readonly DependencyProperty HexEditorContentHeaderColumnsBackgroundProperty =
-        DependencyProperty.Register("HexEditorContentHeaderColumnsBackground", typeof(Brush), typeof(HexEditor), new FrameworkPropertyMetadata(Brushes.Transparent));
+    public static readonly DependencyProperty NumberOfContentsProperty =
+        DependencyProperty.Register("NumberOfContents", typeof(int), typeof(HexEditor), new PropertyMetadata(2));
+
+
+
+    #endregion Contents
+
+    #region Content Header
+
+    public int NumberOfColumns
+    {
+        get { return (int)GetValue(NumberOfColumnsProperty); }
+        set { SetValue(NumberOfColumnsProperty, value); }
+    }
+    public static readonly DependencyProperty NumberOfColumnsProperty =
+        DependencyProperty.Register("NumberOfColumns", typeof(int), typeof(HexEditor), new FrameworkPropertyMetadata(16));
+
+    public double TypeHeaderHeight
+    {
+        get { return (double)GetValue(TypeHeaderHeightProperty); }
+        set { SetValue(TypeHeaderHeightProperty, value); }
+    }
+    public static readonly DependencyProperty TypeHeaderHeightProperty =
+        DependencyProperty.Register("TypeHeaderHeight", typeof(double), typeof(HexEditor), new FrameworkPropertyMetadata(30.0));
+
+    public double DataHeaderHeight
+    {
+        get { return (double)GetValue(DataHeaderHeightProperty); }
+        set { SetValue(DataHeaderHeightProperty, value); }
+    }
+    public static readonly DependencyProperty DataHeaderHeightProperty =
+        DependencyProperty.Register("DataHeaderHeight", typeof(double), typeof(HexEditor), new FrameworkPropertyMetadata(30.0));
+
+    public Brush HeadersBackground
+    {
+        get { return (Brush)GetValue(HeadersBackgroundProperty); }
+        set { SetValue(HeadersBackgroundProperty, value); }
+    }
+    public static readonly DependencyProperty HeadersBackgroundProperty =
+        DependencyProperty.Register("HeadersBackground", typeof(Brush), typeof(HexEditor), new FrameworkPropertyMetadata(Brushes.Transparent));
+
+    public double SplitterWidth
+    {
+        get { return (double)GetValue(SplitterWidthProperty); }
+        set { SetValue(SplitterWidthProperty, value); }
+    }
+    public static readonly DependencyProperty SplitterWidthProperty =
+        DependencyProperty.Register("SplitterWidth", typeof(double), typeof(HexEditor), new FrameworkPropertyMetadata(4.0));
+    
+    public double SplitterLineWidth
+    {
+        get { return (double)GetValue(SplitterLineWidthProperty); }
+        set { SetValue(SplitterLineWidthProperty, value); }
+    }
+    public static readonly DependencyProperty SplitterLineWidthProperty =
+        DependencyProperty.Register("SplitterLineWidth", typeof(double), typeof(HexEditor), new PropertyMetadata(2.0));
+
+    public Brush HeaderLinesColor
+    {
+        get { return (Brush)GetValue(HeaderLinesColorProperty); }
+        set { SetValue(HeaderLinesColorProperty, value); }
+    }
+    public static readonly DependencyProperty HeaderLinesColorProperty =
+        DependencyProperty.Register("HeaderLinesColor", typeof(Brush), typeof(HexEditor), new FrameworkPropertyMetadata(Brushes.Gray));
+
+
+    #endregion Content Header
 
     public double HexEditorContentRowHeight
     {
@@ -78,38 +168,6 @@ public class HexEditor : Control
     }
     public static readonly DependencyProperty HexEditorContentRowHeightProperty =
         DependencyProperty.Register("HexEditorContentRowHeight", typeof(double), typeof(HexEditor), new FrameworkPropertyMetadata(30.0));
-
-    public double HexEditorContentHeaderSplitterWidth
-    {
-        get { return (double)GetValue(HexEditorContentHeaderSplitterWidthProperty); }
-        set { SetValue(HexEditorContentHeaderSplitterWidthProperty, value); }
-    }
-    public static readonly DependencyProperty HexEditorContentHeaderSplitterWidthProperty =
-        DependencyProperty.Register("HexEditorContentHeaderSplitterWidth", typeof(double), typeof(HexEditor), new FrameworkPropertyMetadata(4.0));
-
-    public double HexEditorContentHeaderSplitterRectWidth
-    {
-        get { return (double)GetValue(HexEditorContentHeaderSplitterBorderThicknessProperty); }
-        set { SetValue(HexEditorContentHeaderSplitterBorderThicknessProperty, value); }
-    }
-    public static readonly DependencyProperty HexEditorContentHeaderSplitterBorderThicknessProperty =
-        DependencyProperty.Register("HexEditorContentHeaderSplitterBorderThickness", typeof(double), typeof(HexEditor), new PropertyMetadata(2.0));
-
-    public Brush HexEditorContentHeaderSplitterBackground
-    {
-        get { return (Brush)GetValue(HexEditorContentHeaderSplitterBackgroundProperty); }
-        set { SetValue(HexEditorContentHeaderSplitterBackgroundProperty, value); }
-    }
-    public static readonly DependencyProperty HexEditorContentHeaderSplitterBackgroundProperty =
-        DependencyProperty.Register("HexEditorContentHeaderSplitterBackground", typeof(Brush), typeof(HexEditor), new FrameworkPropertyMetadata(Brushes.Gray));
-
-    public int NumberOfDataColumns
-    {
-        get { return (int)GetValue(NumberOfDataColumnsProperty); }
-        set { SetValue(NumberOfDataColumnsProperty, value); }
-    }
-    public static readonly DependencyProperty NumberOfDataColumnsProperty =
-        DependencyProperty.Register("NumberOfDataColumns", typeof(int), typeof(HexEditor), new FrameworkPropertyMetadata(16));
 
     public int NumberOfDataRows
     {
@@ -124,14 +182,14 @@ public class HexEditor : Control
         if (d != null && d is HexEditor)
         {
             HexEditor hexEditor = (HexEditor)d;
-            hexEditor.DataCells = new HexEditorContentDataCell[(int)e.NewValue, hexEditor.NumberOfDataColumns];
+            hexEditor.DataCells = new HexEditorContentDataCell[(int)e.NewValue, hexEditor.NumberOfColumns];
             foreach (HexEditorContent itemHexContent in hexEditor.HexEditorContents)
             {
                 itemHexContent.ContentData.Children.Clear();
             }
             for (int itemRow=0; itemRow < (int)e.NewValue; itemRow++)
             {
-                for (int itemColumn=0;itemColumn< hexEditor.NumberOfDataColumns;itemColumn++)
+                for (int itemColumn=0;itemColumn< hexEditor.NumberOfColumns; itemColumn++)
                 {
                     hexEditor.DataCells[itemRow, itemColumn] = new HexEditorContentDataCell();
                     if (itemRow == 4 && itemColumn == 4) hexEditor.DataCells[itemRow, itemColumn].CellData = "ABCDEF";
@@ -144,19 +202,6 @@ public class HexEditor : Control
         }
     }
 
-    public double HexEditorContentColumnsMinWidth
-    {
-        get { return (double)GetValue(HexEditorContentColumnsMinWidthProperty); }
-        set { SetValue(HexEditorContentColumnsMinWidthProperty, value); }
-    }
-    public static readonly DependencyProperty HexEditorContentColumnsMinWidthProperty =
-        DependencyProperty.Register("HexEditorContentColumnsMinWidth", typeof(double), typeof(HexEditor), new PropertyMetadata(30.0));
-
-    
-
-    public List<HexEditorContent> HexEditorContents = [];
-
-    
     public HexEditorContentDataCell[,] DataCells
     {
         get { return (HexEditorContentDataCell[,])GetValue(DataCellsProperty); }

@@ -38,9 +38,9 @@
                                 VerticalScrollBarVisibility="Visible"
                                 HorizontalScrollBarVisibility="Visible">
                                 <Grid>
-                                    <StackPanel Orientation="Horizontal">
-                                        <local:HexEditorContent ParentHexEditor="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditor}}"/>
-                                        <local:HexEditorContent ParentHexEditor="{Binding RelativeSource={RelativeSource AncestorType=local:HexEditor}}"/>
+                                    <StackPanel 
+                                        Orientation="Horizontal"
+                                        x:Name="PART_Contents">
                                     </StackPanel>
                                 </Grid>
                             </local:HexScrollViewer>

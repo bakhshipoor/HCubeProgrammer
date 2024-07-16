@@ -8,46 +8,51 @@ using System.Windows.Media;
 
 namespace HexManager;
 
-public class HexEditorContentHeaderColumn : Decorator
+public class HexEditorContentDataHeaderColumn : Decorator
 {
 
-    static HexEditorContentHeaderColumn()
+    static HexEditorContentDataHeaderColumn()
     {
         
     }
 
-    public HexEditorContentHeaderColumn(HexEditorContentHeaderColumns headerColumns, string text, int columnIndex) 
+    public HexEditorContentDataHeaderColumn()
+    {
+        SnapsToDevicePixels = true;
+        ParentHexEditor = new();
+        ParentHexEditorContent = new();
+        HexEditorContentDataHeaderColumnSplitter child = new HexEditorContentDataHeaderColumnSplitter(this);
+        child.Width = ParentHexEditor.SplitterWidth;
+        child.Height = Height;
+        child.RectWidth = ParentHexEditor.SplitterLineWidth;
+        child.Background = ParentHexEditor.HeaderLinesColor;
+        Child = child;
+    }
+
+    public HexEditorContentDataHeaderColumn(HexEditorContentDataHeaderColumns headerColumns, string text, int columnIndex) : this()
     {
         ParentHeaderColumns = headerColumns;
-        _ParentHexEditor = headerColumns._ParentHexEditor;
-        _ParentHexEditorContent = headerColumns.ParentHexEditorContent;
+        ParentHexEditor = headerColumns._ParentHexEditor;
+        ParentHexEditorContent = headerColumns.ParentHexEditorContent;
         Text = text;
         ColumnIndex = columnIndex;
-        //MinWidth = _ParentHexEditor.HexEditorContentColumnsMinWidth;
-        //Width = MinWidth;
-        //Height = _ParentHexEditor.HexEditorContentHeaderColumnsHeight;
-
-        HexEditorContentHeaderColumnSplitter child = new HexEditorContentHeaderColumnSplitter(this);
-        child.Width = _ParentHexEditor.HexEditorContentHeaderSplitterWidth;
-        child.Height = Height;
-        child.RectWidth = _ParentHexEditor.HexEditorContentHeaderSplitterRectWidth;
-        child.Background = _ParentHexEditor.HexEditorContentHeaderSplitterBackground;
-        Child = child;
-        SnapsToDevicePixels = true;
+        
+        
     }
 
     protected override void OnRender(DrawingContext drawingContext)
     {
         Rect bounds = new Rect(0, 0, ActualWidth, ActualHeight);
-        Brush brush = _ParentHexEditor.HexEditorContentHeaderColumnsBackground;
+        Brush brush = ParentHexEditor.HeadersBackground;
         drawingContext.DrawRoundedRectangle(brush, null, bounds, 0, 0);
 
         var typeface = new Typeface("Segoe UI");
         var formattedText = new FormattedText(Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
                 typeface, 12, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
-        if (formattedText.Width < (ActualWidth - _ParentHexEditor.HexEditorContentHeaderSplitterWidth))
+
+        if (formattedText.Width < (ActualWidth - ParentHexEditor.SplitterWidth))
         {
-            double labelX = (ActualWidth - formattedText.Width - _ParentHexEditor.HexEditorContentHeaderSplitterWidth) / 2;
+            double labelX = (ActualWidth - formattedText.Width - ParentHexEditor.SplitterWidth) / 2;
             if (labelX < 0) { labelX = 0; }
             double labelY = (ActualHeight - formattedText.Height) / 2;
             if (labelY < 0) { labelY = 0; }
@@ -70,8 +75,16 @@ public class HexEditorContentHeaderColumn : Decorator
         }
         if (availableSize.Width == double.PositiveInfinity)
         {
+            if (MinWidth == 0 )
+            {
+                var typeface = new Typeface("Segoe UI");
+                var formattedText = new FormattedText(Text, CultureInfo.InvariantCulture, FlowDirection.LeftToRight,
+                        typeface, 12, Brushes.Black, VisualTreeHelper.GetDpi(this).PixelsPerDip);
+                MinWidth = formattedText.Width + 22;
+            }
             availableSize.Width = MinWidth + desired.Width;
             Width = availableSize.Width;
+            
         }
         return availableSize;
     }
@@ -79,8 +92,8 @@ public class HexEditorContentHeaderColumn : Decorator
     protected override Size ArrangeOverride(Size finalSize)
     {
         Rect childArrangeRect = new Rect();
-        childArrangeRect.Width = _ParentHexEditor.HexEditorContentHeaderSplitterWidth;
-        childArrangeRect.Height = _ParentHexEditor.HexEditorContentHeaderColumnsHeight;
+        childArrangeRect.Width = ParentHexEditor.SplitterWidth;
+        childArrangeRect.Height = ParentHexEditor.DataHeaderHeight;
         childArrangeRect.X = (finalSize.Width - childArrangeRect.Width);
         childArrangeRect.Y = 0;
         UIElement child = Child;
@@ -97,7 +110,7 @@ public class HexEditorContentHeaderColumn : Decorator
         set { SetValue(TextProperty, value); }
     }
     public static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register("Text", typeof(string), typeof(HexEditorContentHeaderColumn), new PropertyMetadata(string.Empty));
+        DependencyProperty.Register("Text", typeof(string), typeof(HexEditorContentDataHeaderColumn), new PropertyMetadata(string.Empty));
 
     public int ColumnIndex
     {
@@ -105,26 +118,26 @@ public class HexEditorContentHeaderColumn : Decorator
         set { SetValue(ColumnIndexProperty, value); }
     }
     public static readonly DependencyProperty ColumnIndexProperty =
-        DependencyProperty.Register("ColumnIndex", typeof(int), typeof(HexEditorContentHeaderColumn), new PropertyMetadata(0));
+        DependencyProperty.Register("ColumnIndex", typeof(int), typeof(HexEditorContentDataHeaderColumn), new PropertyMetadata(0));
 
-    public HexEditorContentHeaderColumns ParentHeaderColumns
+    public HexEditorContentDataHeaderColumns ParentHeaderColumns
     {
-        get { return (HexEditorContentHeaderColumns)GetValue(ParentHeaderColumnsProperty); }
+        get { return (HexEditorContentDataHeaderColumns)GetValue(ParentHeaderColumnsProperty); }
         set { SetValue(ParentHeaderColumnsProperty, value); }
     }
     public static readonly DependencyProperty ParentHeaderColumnsProperty =
-        DependencyProperty.Register("ParentHeaderColumns", typeof(HexEditorContentHeaderColumns), typeof(HexEditorContentHeaderColumn), new FrameworkPropertyMetadata(null, OnParentHeaderColumnsChanged));
+        DependencyProperty.Register("ParentHeaderColumns", typeof(HexEditorContentDataHeaderColumns), typeof(HexEditorContentDataHeaderColumn), new FrameworkPropertyMetadata(null, OnParentHeaderColumnsChanged));
     private static void OnParentHeaderColumnsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d!=null && d is HexEditorContentHeaderColumn)
+        if (d!=null && d is HexEditorContentDataHeaderColumn)
         {
-            HexEditorContentHeaderColumn headerCell = (HexEditorContentHeaderColumn)d;
-            headerCell._ParentHexEditor = ((HexEditorContentHeaderColumns)e.NewValue)._ParentHexEditor;
-            headerCell._ParentHexEditorContent = ((HexEditorContentHeaderColumns)e.NewValue).ParentHexEditorContent;
+            HexEditorContentDataHeaderColumn headerCell = (HexEditorContentDataHeaderColumn)d;
+            headerCell.ParentHexEditor = ((HexEditorContentDataHeaderColumns)e.NewValue)._ParentHexEditor;
+            headerCell.ParentHexEditorContent = ((HexEditorContentDataHeaderColumns)e.NewValue).ParentHexEditorContent;
         }
     }
 
-    public static readonly RoutedEvent HeaderCellSizeChangedEvent = EventManager.RegisterRoutedEvent("HeaderCellSizeChanged", RoutingStrategy.Bubble, typeof(HeaderCellSizeEventHandler), typeof(HexEditorContentHeaderColumn));
+    public static readonly RoutedEvent HeaderCellSizeChangedEvent = EventManager.RegisterRoutedEvent("HeaderCellSizeChanged", RoutingStrategy.Bubble, typeof(HeaderCellSizeEventHandler), typeof(HexEditorContentDataHeaderColumn));
     [Category("Behavior")]
     public event HeaderCellSizeEventHandler HeaderCellSizeChanged 
     { 
@@ -138,8 +151,7 @@ public class HexEditorContentHeaderColumn : Decorator
         set { SetValue(StartPointProperty, value); }
     }
     public static readonly DependencyProperty StartPointProperty =
-        DependencyProperty.Register("StartPoint", typeof(Point), typeof(HexEditorContentHeaderColumn), new PropertyMetadata(new Point(0,0)));
-
+        DependencyProperty.Register("StartPoint", typeof(Point), typeof(HexEditorContentDataHeaderColumn), new PropertyMetadata(new Point(0,0)));
 
     public Point EndPoint
     {
@@ -147,11 +159,8 @@ public class HexEditorContentHeaderColumn : Decorator
         set { SetValue(EndPointProperty, value); }
     }
     public static readonly DependencyProperty EndPointProperty =
-        DependencyProperty.Register("EndPoint", typeof(Point), typeof(HexEditorContentHeaderColumn), new PropertyMetadata(new Point(0,0)));
+        DependencyProperty.Register("EndPoint", typeof(Point), typeof(HexEditorContentDataHeaderColumn), new PropertyMetadata(new Point(0,0)));
 
-
-
-
-    internal HexEditor _ParentHexEditor;
-    internal HexEditorContent _ParentHexEditorContent;
+    public HexEditor ParentHexEditor { get; set; }
+    public HexEditorContent ParentHexEditorContent { get; set; }
 }

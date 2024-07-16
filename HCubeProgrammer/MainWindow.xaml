@@ -13,7 +13,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--<HexMgr:HexViewer x:Name="HWFile" BorderBrush="Beige"/>-->
-        <HexMgr:HexEditor ScrollViewer.CanContentScroll="True"/>
+        <HexMgr:HexEditor />
+
+
     </Grid>
 
 </Window>

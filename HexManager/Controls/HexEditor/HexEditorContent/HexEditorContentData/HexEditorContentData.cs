@@ -22,7 +22,7 @@ public class HexEditorContentData : Panel
 {
     static HexEditorContentData()
     {
-        
+
     }
 
     public HexEditorContentData() : base()
@@ -40,6 +40,12 @@ public class HexEditorContentData : Panel
         CreateVerticalLines(drawingContext);
     }
 
+    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+    {
+        base.OnRenderSizeChanged(sizeInfo);
+        
+    }
+
     protected override Size MeasureOverride(Size availableSize)
     {
         return base.MeasureOverride(availableSize);
@@ -49,10 +55,10 @@ public class HexEditorContentData : Panel
     {
         if (ParentHexEditorContent == null) { return finalSize; }
         UIElementCollection children = Children;
-        int countOfColumns = _ParentHexEditor.NumberOfDataColumns;
+        int countOfColumns = _ParentHexEditor.NumberOfColumns;
         int countOfRows = _ParentHexEditor.NumberOfDataRows;
         int childIndex = 0;
-        double offset = _ParentHexEditor.HexEditorContentHeaderSplitterWidth;
+        double offset = _ParentHexEditor.SplitterWidth;
         for (int itemRow = 0; itemRow < countOfRows; itemRow++)
         {
             for (int itemColumn = 0; itemColumn < countOfColumns; itemColumn++)
@@ -60,7 +66,23 @@ public class HexEditorContentData : Panel
                 UIElement child = children[childIndex];
                 if (child == null) { continue; }
                 Rect rcChild = new Rect();
-                ParentHexEditorContent.HeaderColumns[itemColumn].MinWidth = Math.Max(_ParentHexEditor.DataCells[itemRow, itemColumn].CalculateWidth() + 24, ParentHexEditorContent.HeaderColumns[itemColumn].MinWidth);
+                ParentHexEditorContent.HeaderColumns[itemColumn].MinWidth = Math.Max(_ParentHexEditor.DataCells[itemRow, itemColumn].CalculateWidth() +12, ParentHexEditorContent.HeaderColumns[itemColumn].MinWidth);
+                if (ParentHexEditorContent.HeaderColumns[itemColumn].Width < ParentHexEditorContent.HeaderColumns[itemColumn].MinWidth)
+                {
+                    double dif = ParentHexEditorContent.HeaderColumns[itemColumn].MinWidth - ParentHexEditorContent.HeaderColumns[itemColumn].Width;
+                    ParentHexEditorContent.HeaderColumns[itemColumn].Width = ParentHexEditorContent.HeaderColumns[itemColumn].MinWidth;
+                    Width += dif;
+                    finalSize.Width += dif;
+                    Point oldEndPoint = ParentHexEditorContent.HeaderColumns[itemColumn].EndPoint;
+                    ParentHexEditorContent.HeaderColumns[itemColumn].EndPoint = new Point(oldEndPoint.X + dif+4, oldEndPoint.Y);
+                    if (itemColumn < (countOfColumns - 1))
+                    {
+                        Point oldStartPoint = ParentHexEditorContent.HeaderColumns[itemColumn + 1].StartPoint;
+                        oldEndPoint = ParentHexEditorContent.HeaderColumns[itemColumn + 1].EndPoint;
+                        ParentHexEditorContent.HeaderColumns[itemColumn + 1].StartPoint = new Point(oldStartPoint.X + dif+4, oldStartPoint.Y);
+                        ParentHexEditorContent.HeaderColumns[itemColumn + 1].EndPoint = new Point(oldEndPoint.X + dif+4, oldEndPoint.Y);
+                    }
+                }
                 rcChild.Width = ParentHexEditorContent.HeaderColumns[itemColumn].Width - offset;
                 rcChild.Height = _ParentHexEditor.HexEditorContentRowHeight;
                 rcChild.X = ParentHexEditorContent.HeaderColumns[itemColumn].StartPoint.X;
@@ -73,36 +95,38 @@ public class HexEditorContentData : Panel
         return finalSize;
     }
 
-    internal HexEditor _ParentHexEditor=new();
+    public HexEditor _ParentHexEditor { get; set; } = new();
 
     public HexEditorContent ParentHexEditorContent
     {
-        get { return (HexEditorContent)GetValue(ParentHexEditorContentProperty); }
+        get
+        {
+            return (HexEditorContent)GetValue(ParentHexEditorContentProperty);
+        }
         set { SetValue(ParentHexEditorContentProperty, value); }
     }
     public static readonly DependencyProperty ParentHexEditorContentProperty =
         DependencyProperty.Register("ParentHexEditorContent", typeof(HexEditorContent), typeof(HexEditorContentData), new FrameworkPropertyMetadata(null, OnParentHexEditorContentChanged));
     private static void OnParentHexEditorContentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d!=null && d is HexEditorContentData)
+        if (d != null && d is HexEditorContentData)
         {
             HexEditorContentData hexEditorContentData = (HexEditorContentData)d;
             hexEditorContentData._ParentHexEditor = ((HexEditorContent)e.NewValue).ParentHexEditor;
-            hexEditorContentData.ParentHexEditorContent.ContentData = hexEditorContentData;
         }
     }
 
     private void CreateVerticalLines(DrawingContext drawingContext)
     {
-        int countOfColumns = _ParentHexEditor.NumberOfDataColumns;
+        int countOfColumns = _ParentHexEditor.NumberOfColumns;
         int countOfRows = _ParentHexEditor.NumberOfDataRows;
-        
+
         Brush vlBrush = Brushes.LightGray;
         double lineThickness = 1.0;
         for (int itemVLine = 0; itemVLine < countOfColumns; itemVLine++)
         {
             Pen vlPen = new();
-            double offset = _ParentHexEditor.HexEditorContentHeaderSplitterWidth/2;
+            double offset = _ParentHexEditor.SplitterWidth / 2;
             // Main Line
             if (itemVLine == 15)
             {
@@ -128,8 +152,8 @@ public class HexEditorContentData : Panel
                 //DashStyle dashValues = new(new DoubleCollection() { 2.5, 5 }, 0);
                 vlPen = new Pen(vlBrush, lineThickness) /*{ DashStyle = dashValues }*/;
             }
-            Point start = new(ParentHexEditorContent.HeaderColumns[itemVLine].EndPoint.X-2, 0);
-            Point end = new(ParentHexEditorContent.HeaderColumns[itemVLine].EndPoint.X-2, ActualHeight);
+            Point start = new(ParentHexEditorContent.HeaderColumns[itemVLine].EndPoint.X - 2, 0);
+            Point end = new(ParentHexEditorContent.HeaderColumns[itemVLine].EndPoint.X - 2, ActualHeight);
 
             drawingContext.DrawLine(vlPen, start, end);
         }
